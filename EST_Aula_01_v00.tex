@@ -1,4 +1,4 @@
-\documentclass[14pt]{beamer}
+\documentclass[graphics,14pt]{beamer}
 \geometry{papersize={338.7mm,190.5mm},margin={1.125cm,0.125cm}}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
@@ -71,7 +71,8 @@
 \usepackage{multimedia}
 \usepackage[style=british]{csquotes}
 \usepackage{listings}
-%\usepackage[dvipsnames]{xcolor}
+%\usepackage[absolute,overlay]{textpos}
+% ------------------------------------------------------------------------
 \lstset{language=R,
 	basicstyle=\normalsize\ttfamily,
 	stringstyle=\color{teal},
@@ -124,6 +125,8 @@
 	\node[xshift=0.65cm,yshift=-1.28 cm,opacity=1.0] at (current page.north west) {\includegraphics[width=0.56cm]{00BAS_marcador_02.pdf}};
 	\end{tikzpicture}
 }
+%\multicolbaselineskip = 1cm
+ \columnsep = 1cm
 % ------------------------------------------------------------------------
 \setbeamercolor{frametitle}{fg=pcmggray,bg=white}
 \setbeamerfont{structure}{size=\LARGE}
@@ -178,21 +181,31 @@
 	\node[xshift=1.14cm,yshift=-18.08cm,opacity=1.0] at (current page.north west) {\includegraphics[width=1.58cm]{00BAS_fale_logo.pdf}};
 	\node[xshift=28.97cm,yshift=-18.2cm,opacity=1.0] at (current page.north west) {\includegraphics[width=9.8cm]{00BAS_regularrightdown.pdf}};
 	\end{tikzpicture}
+	\put(880,-20){\Large{\insertframenumber \hspace{2pt} de \inserttotalframenumber}}
+%	\begin{textblock}{2cm}(150pt,1pt)
+%		\normalsize \insertframenumber de \inserttotalframenumber
+%	\end{textblock}
+%	\normalsize \insertframenumber de \inserttotalframenumber
 }
 % ==== Sumário ==========================================================
 \section{Sumário}
-\begin{frame}
-    \frametitle{Título}
-    \tableofcontents
+\begin{frame}[t]
+    \frametitle{Sumário}
+    \begin{multicols}{2}
+	    \tableofcontents
+    \end{multicols}
+
 \end{frame}
 % ========================================================================
 
 % ========================================================================
 \AtBeginSection[]
 {
-  \begin{frame}
-    \frametitle{Assuntos}
-    \tableofcontents[currentsection]
+  \begin{frame}[t]
+    \frametitle{Assunto}
+    \begin{multicols}{2}
+    	\tableofcontents[currentsection]
+    \end{multicols}
   \end{frame}
 }
 % =======================================================================
@@ -343,7 +356,7 @@
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Experimento}
+\frametitle{Estudo experimental}
 	\vspace{-1.5cm}
 	Efeitos do teste: principal e interativo\\
 	\vspace{1cm}
@@ -412,7 +425,7 @@
 
 	\end{frame}   
 % ------------------------------------------------------------------------
-\section{Estatística descritiva}
+\section{Estatística Descritiva}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Estatística descritiva}
@@ -451,7 +464,7 @@
 	\begin{addmargin}[2.45cm]{0em}
 		\normalsize 
 		\begin{verbatim}
-		id ortografia cat\_gram inf\_gram freq\_orto freq\_orto.M log10\_freq\_orto zipf\_escala nb\_letras
+		id ortografia cat_gram inf_gram freq_orto freq_orto.M log10_freq_orto zipf_escala nb_letras
 		1  1          o     gram      det   4364416   139093.06          6.6399      8.1433         1
 		2  2         de     gram      prp   2553292    81372.90          6.4071      7.9105         2
 		3  3          ,     gram       pu   2133025    67979.08          6.3290      7.8324         1
@@ -560,7 +573,60 @@
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Medidas de tendência central}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=7cm,yshift=-3.0cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{tendencia-central.png}};
+	\end{tikzpicture}
+	\vspace{-1.5cm}
+	\begin{itemize}
+		\item[-] Média
+			\begin{itemize}
+				\item[-] Aritmética: problema que \textit{outliers} podem alavancar.
+				\item[-] Truncada (\textit{winsorized})
+				\item[-] Ponderada
+			\end{itemize}
+		\item[-] Mediana: menos problemas com \textit{outliers}.
+		\item[-] Moda: bem indicada para variáveis categóricas.
+		\item[-] Tri-média: utiliza quartis.
+	\end{itemize}
+	
+	
+	\vfill
+	\lfr{Adaptado de: \url{https://analystprep.com/cfa-level-1-exam/wp-content/uploads/2020/01/page-45-1024x673.jpg}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Medidas de dispersão}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=6cm,yshift=-1.0cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{desvio-sigma.png}};
+	\end{tikzpicture}
+	\vspace{-1.5cm}
+	\begin{itemize}
+		\item[-] \textit{Range}, alcance, diferença entre mínimo e máximo.
+		\item[-] desvios
+		\begin{itemize}
+			\item[-] variância e desvio padrão.
+			\item[-] Soma dos desvios quadrados.
+		\end{itemize}
+		\item[-] Distância inter-percentis.
+		\item[-] \textbf{Erro padrão}: desvio padrão da média
+		\item[-] Regra do $\sigma$: 
+		\begin{itemize}
+			\item[-] $0,67\sigma \rightarrow 50\%$
+			\item[-] $1\sigma \rightarrow 68,3\%$
+			\item[-] $1,96\sigma \rightarrow 95\%$
+			\item[-] $2\sigma \rightarrow 95,4\%$
+			\item[-] $3\sigma \rightarrow 99,7\%$			
+		\end{itemize}
+	\end{itemize}
+
+	\vfill
+	\lfr{Adaptado de: \url{https://civilblog.org/2014/05/11/what-is-standard-deviation-and-how-to-calculate-it-with-an-example-calculation/}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Achatamento(curtose) e (As)simetria}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
@@ -568,21 +634,150 @@
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Representações bivariadas}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
 \end{frame}
 
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim da Estatística Descritiva - Dever de casa}
+	\textbf{Exercícios do livro \cite{Agresti2018}:}
+	\begin{itemize}
+		\item[-] Capítulo 3: 1.1, 1.3, 1.5-1.8, 1.14, 1.16;
+	\end{itemize}
+	\textbf{Preparação do terreno}
+	\begin{itemize}
+		\item[-] Reproduzir os exemplos no R-Studio.
+	\end{itemize}	
+	
+\end{frame}
+
+% ------------------------------------------------------------------------
+\section{Probabilidades}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\section[Estimação de Parâmetros]{Estimação de Parâmetros}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section[Teste de Significância]{Teste de Significância}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Comparação de dois grupos}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Associação de Variáveis Categóricas}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Regressão Linear e Correlação}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Relação Multivariável}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Regressão Múltipla e Correlação}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Análise de Variância - ANOVA}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Preditores Quantitativos e Categóricos}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Modelos com Regressão Múltipla}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Regressão Logística}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\section{Introdução a métodos aprofundados}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
 % ------------------------------------------------------------------------
 \section{Encerramento}
 \begin{frame}[fragile=singleslide]

@@ -1,5 +1,6 @@
 Imagens
 Rcodes/.*
+Rcodes/T*
 *.aux
 *.bbl
 *.bak
