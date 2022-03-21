@@ -70,6 +70,18 @@
 \usepackage{booktabs}
 \usepackage{multimedia}
 \usepackage[style=british]{csquotes}
+\usepackage{listings}
+%\usepackage[dvipsnames]{xcolor}
+\lstset{language=R,
+	basicstyle=\normalsize\ttfamily,
+	stringstyle=\color{teal},
+	otherkeywords={0,1,2,3,4,5,6,7,8,9},
+	morekeywords={TRUE,FALSE},
+	deletekeywords={data,frame,length,as,character},
+	keywordstyle=\color{blue},
+	commentstyle=\color{teal},
+	showstringspaces=false
+}
 % ------------------------------------------------------------------------
 \pdfsuppresswarningpagegroup=1
 \def\disciplina/{Estatística para Linguística}
@@ -402,7 +414,7 @@
 % ------------------------------------------------------------------------
 \section{Estatística descritiva}
 % ------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[t,fragile=singleslide]
 \frametitle{Estatística descritiva}
 	Primeiro passo para entender os dados coletados
 	Facilitar a assimilação de informação
@@ -412,28 +424,165 @@
 		\item[-] variabilidade
 		\item[-] associação
 	\end{itemize}
-	Análise e regressão: predizer uma variável a partir de outras.
-	
-
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}
-\frametitle{Tabelas e gráficos}
-	\\
+	Análise e regressão: predizer uma variável a partir de outras.\\
+	\vspace{1.0cm}
+	Um pouco de código R para tratar com dados
+	\begin{lstlisting}
+	data_lemas <- read.table("../Dados/lexporbr_alfa_lemas_txt.txt", header = TRUE, 
+							sep = "\t",dec = ",",quote = "\"")
+	head(data_lemas)
+	dim(data_lemas)
+	summary(data_lemas)
+	\end{lstlisting}
+	\vspace{1.0cm}	
 	Dados de \href{https://www.lexicodoportugues.com/}{Corpus Léxico do português}
-	
 	\vfill
 	\lfr{Dados: \url{https://www.lexicodoportugues.com/downloads/lexporbr_alfa_lemas_txt.txt}}
 
 \end{frame}
 % ------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Tabelas e gráficos}
+	Extraindo o cabeçalho dos dados
+	\begin{lstlisting}
+	> head(data_lemas)
+	\end{lstlisting}
+	Gera a saída:
+	\begin{addmargin}[2.45cm]{0em}
+		\normalsize 
+		\begin{verbatim}
+		id ortografia cat\_gram inf\_gram freq\_orto freq\_orto.M log10\_freq\_orto zipf\_escala nb\_letras
+		1  1          o     gram      det   4364416   139093.06          6.6399      8.1433         1
+		2  2         de     gram      prp   2553292    81372.90          6.4071      7.9105         2
+		3  3          ,     gram       pu   2133025    67979.08          6.3290      7.8324         1
+		4  4          .     gram       pu   1603184    51093.15          6.2050      7.7084         1
+		5  5         em     gram      prp   1044260    33280.36          6.0188      7.5222         2
+		6  6          e     gram       kc    667736    21280.61          5.8246      7.3280         1
+		\end{verbatim}
+	\end{addmargin}
+	A dimensionalidade dos dados, onde cada linha indica uma medição com as colunas indicando as informações\\
+	\begin{lstlisting}
+	> dim(data_lemas)
+	\end{lstlisting}
+	Que é um total de 169.606 linhas com 9 colunas
+	\begin{addmargin}[2cm]{0em}
+	\normalsize 
+	\begin{verbatim}
+		[1] 169606      9
+	\end{verbatim}
+	\end{addmargin}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Dever de casa}
+	Construindo uma tabela
+	\begin{lstlisting}
+	> tab <- table(data_lemas$cat_gram, data_lemas$nb_letras)
+	\end{lstlisting}
+	\vspace{2.0cm}
+
+	\begin{addmargin}[2cm]{0em}
+		\normalsize 
+		\begin{verbatim}
+		         1     2     3     4     5     6     7     8     9    10    11    12    13
+		adj      3    41   355   699  1061  1490  2320  2817  3117  3106  2672  2099  1575
+		adv      2    15    31    57    80    96   109   115   148   235   255   313   330
+		gram    56    60    96    75    75    47    22    12    14     8     1     2     0
+		nom     57   500  1517  3375  4992  5924  7396  7504  7397  6719  5912  4278  3151
+		num     11   275  2045  5678 14704 11792  8534  6535  3553   913   941  1630   657
+		ver      1    11    51   175  1037  1796  2099  2442  2115  1678  1123   815   475
+		\end{verbatim}
+	\end{addmargin}
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Histograma}
+	Histograma em uma figura PNG...
+	\begin{lstlisting}
+	png(file = ""../Imagens/histograma.png",width = 864, height = 486, units = "px")
+	hist(data_lemas$nb_letras,main="Histograma do numero de letras em cada ocorrencia",
+	breaks=40,xlab = "numero de letras", ylab="Ocorrencias",col = "blue2",
+	border="white")
+	dev.off()
+	\end{lstlisting}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=6cm,yshift=-2.75cm,opacity=1.0] at (current page.center) {\includegraphics[width=24cm]{histograma.png}};
+	\end{tikzpicture}
+	\vfill
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Diagrama de caixa}
+	Diagrama de caixa (\textit{boxplot}) em uma figura PNG...
+	\begin{lstlisting}
+	png(file = "../Imagens/Box_plot.png",width = 864, height = 486, units = "px")
+	boxplot(data_lemas$nb_letras ~ cat_gram, data = data_lemas, ylab = "Numero de letras", 
+	col = "blue2", border="black")
+	dev.off()
+	\end{lstlisting}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=4cm,yshift=-2.75cm,opacity=1.0] at (current page.center) {\includegraphics[width=24cm]{Box_plot.png}};
+	\end{tikzpicture}
+	\vfill
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Diagrama ramo e folha}
+	Apenas do primeiro ao 300º elemento
+	\begin{lstlisting}
+	> tab <- stem(data_lemas$nb_letras[1:300])
+	\end{lstlisting}
+	\vspace{2.0cm}
+	
+	\begin{addmargin}[2cm]{0em}
+		\normalsize 
+		\begin{verbatim}
+		  The decimal point is at the |
+		
+		 1 | 0000000000000000000
+		 2 | 0000000000000000000
+		 3 | 0000000000000000000000000000000000000
+		 4 | 00000000000000000000000000000000000000000
+		 5 | 00000000000000000000000000000000000000000000000000000000000000
+		 6 | 00000000000000000000000000000000000000000000
+		 7 | 000000000000000000000000000000000000000
+		 8 | 0000000000000000000000
+		 9 | 000000000
+		10 | 0000000
+		11 | 
+		12 | 
+		13 | 0
+		\end{verbatim}
+	\end{addmargin}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
 \end{frame}
 % ------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
 \end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
+
 % ------------------------------------------------------------------------
 \section{Encerramento}
 \begin{frame}[fragile=singleslide]
@@ -462,12 +611,6 @@
 	\begin{tikzpicture} [remember picture,overlay]
 		\node[anchor=south,yshift=0pt] at (current page.south){ \includegraphics[width=.1\textwidth]{00BAS_CCsomerights.png}};
 	\end{tikzpicture}
-%
-%\begin{lstlisting}
-%bsbasas
-%\end{lstlisting}
-	
-
 \end{frame} 
 
 

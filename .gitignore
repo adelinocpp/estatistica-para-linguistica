@@ -1,4 +1,5 @@
 Imagens
+Rcodes/.*
 *.aux
 *.bbl
 *.bak
@@ -9,3 +10,4 @@ Imagens
 *.snm
 *.gz
 *.tec
+*.vrb
