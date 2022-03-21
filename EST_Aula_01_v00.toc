@@ -1,0 +1,6 @@
+\babel@toc {brazil}{}
+\beamer@sectionintoc {1}{Sum\IeC {\'a}rio}{2}{0}{1}
+\beamer@sectionintoc {2}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{0}{2}
+\beamer@sectionintoc {3}{Estat\IeC {\'\i }stica descritiva}{15}{0}{3}
+\beamer@sectionintoc {4}{Encerramento}{20}{0}{4}
+\beamer@sectionintoc {5}{Refer\IeC {\^e}ncias}{22}{0}{5}
