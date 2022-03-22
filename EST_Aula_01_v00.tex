@@ -195,7 +195,7 @@
 %	\normalsize \insertframenumber de \inserttotalframenumber
 }
 % ==== Sumário ==========================================================
-\section{Sumário}
+\section{Introdução}
 \begin{frame}[t]
     \frametitle{Sumário}
     \begin{multicols}{2}
@@ -493,7 +493,7 @@
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-	\frametitle{Dever de casa}
+	\frametitle{Tabelas de contingência}
 	Construindo uma tabela
 	\begin{lstlisting}
 	> tab <- table(data_lemas$cat_gram, data_lemas$nb_letras)
@@ -651,7 +651,7 @@
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{De uma seleção de dados}
+\frametitle{Exemplos de Estatísticas}
 	\begin{tikzpicture}[remember picture,overlay]
 	\node[xshift=7.5cm,yshift=-4cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{densidade_plot.png}};
 	\end{tikzpicture}
@@ -847,8 +847,99 @@
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Distribuições}
-	
+	Distribuição de uma variável discreta
+	\begin{itemize}
+		\item[-] $0 \leq P(x) \le 1$.
+		\item[-] $\sum P(x) = 1$.
+		\item[-] Função massa de probabilidade.
+		\item[-] Probabilidade está diretamente em $P(x)$.
+	\end{itemize} 
+	\vspace{0.5cm}
+	Distribuição de uma variável contínua
+	\begin{itemize}
+		\item[-] $0 \leq P(x) \le 1$. 
+		\item[-] $\int\limits_{-\infty}^{\infty} p(x)dx = 1$.
+		\item[-] Função densidade de probabilidade $p(x)$.
+		\item[-] $P(1 \leq x \leq 3) = \int\limits_{1}^{3} p(x)dx$.
+	\end{itemize} 
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=8.5cm,yshift=4cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{prob-discreta-00.png}};
+	\end{tikzpicture}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=8.5cm,yshift=-4cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{prob-continua-00.png}};
+	\end{tikzpicture}
 
+	\vfill
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Parâmetros - vide \cite{Casella2011}}
+	Valor esperado
+	\begin{equation*}
+		E[x] = \mu  = \sum\limits_{x \in X}xP(x) \quad \text{ou} \quad \mu = \int\limits_{x \in X}xp(x)dx
+	\end{equation*}
+	Variância
+	\begin{equation*}
+		E[(x-\mu)]^2 = \sigma^2 = \sum\limits_{x \in X}(x-\mu)^2P(x) \quad \text{ou} \quad  \sigma = \int\limits_{x \in X}(x-\mu)^2p(x)dx
+	\end{equation*}
+	Momentos estatísticos
+	\begin{equation*}
+	E[x]^n = \sum\limits_{x \in X}x^nP(x) \quad \text{ou} \quad  \int\limits_{x \in X}x^np(x)dx
+	\end{equation*}
+	Momentos centrais
+	\begin{equation*}
+	E[(x-\mu)]^n = \sum\limits_{x \in X}(x-\mu)^nP(x) \quad \text{ou} \quad  \int\limits_{x \in X}(x-\mu)^np(x)dx
+	\end{equation*}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Função Normal}
+	Padrão com $\mu = 0$ e $\sigma = 1$
+	\begin{equation*}
+		\mathcal{N}(x|0,1) = \frac{1}{\sqrt{2\pi}}\exp^{-\frac{x^2}{2}}
+	\end{equation*}
+	Geral, lembrar da regra do $\sigma$
+	\begin{equation*}
+		\mathcal{N}(x|\mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp^{-\frac{(x-\mu)^2}{2\sigma^2}}
+	\end{equation*}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-4cm,opacity=1.0] at (current page.center) {\includegraphics[width=20cm]{prob-normal-00.png}};
+	\end{tikzpicture}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Probabilidade acumulada}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=3cm,opacity=1.0] at (current page.center) {\includegraphics[width=20cm]{prob-normal-acum-00.png}};
+	\end{tikzpicture}
+	
+	\vspace{9.0cm}
+	
+	Covariância
+	\begin{equation*}
+	cov(x,y) = E\left[(x-\mu_x)(y-\mu_y) \right]
+	\end{equation*}
+	Correlação
+	\begin{equation*}
+	cov(x,y) = E\left[\frac{(x-\mu_x)}{\sigma_x}\frac{(y-\mu_y)}{\sigma_y} \right]
+	\end{equation*}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Erro padrão}
+	O erro padrão de uma \textbf{estatística} (na maioria das vezes a estimativa de um \textbf{parâmetro}) é o desvio padrão da distribuição amostral de uma estatística.
+	
+	Erro padrão da média:
+	\begin{equation*}
+		\sigma_{\bar{x}} = \frac{\sigma}{n}
+	\end{equation*}
+	
+	Em geral, a distribuição amostral da média $\bar{x}$ tende a uma normal independente da distribuição de $X$.
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
