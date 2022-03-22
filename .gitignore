@@ -1,4 +1,3 @@
-Imagens
 Rcodes/.*
 Rcodes/T*
 *.aux
@@ -13,4 +12,4 @@ Rcodes/T*
 *.tec
 *.vrb
 *.toc
-
+*.sav

@@ -74,14 +74,21 @@
 %\usepackage[absolute,overlay]{textpos}
 % ------------------------------------------------------------------------
 \lstset{language=R,
-	basicstyle=\normalsize\ttfamily,
+	basicstyle=\large\ttfamily,
 	stringstyle=\color{teal},
 	otherkeywords={0,1,2,3,4,5,6,7,8,9},
 	morekeywords={TRUE,FALSE},
 	deletekeywords={data,frame,length,as,character},
 	keywordstyle=\color{blue},
 	commentstyle=\color{teal},
-	showstringspaces=false
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+%	frame=single,                   % adds a frame around the code
+	tabsize=1,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false, 
 }
 % ------------------------------------------------------------------------
 \pdfsuppresswarningpagegroup=1
@@ -401,7 +408,7 @@
 \begin{frame}
 \frametitle{Variabilidade amostral e viés}
 \vspace{-2cm}
-	\textbf{Erro de amostragem:} erro ocorrido ao utilizar uma estatística da amostra para predizer um parâmetro da população. Exemplo: Erro da pesquisa eleitoral com n = 100 de + ou - 3\%. \\
+	\textbf{Erro de amostragem:} erro ocorrido ao utilizar uma estatística da amostra para predizer um parâmetro da população. Exemplo: Erro da pesquisa eleitoral com n = 1000 de + ou - 3\%. \\
 	\vspace{1cm}
 	Viés: erro quando a amostra é enviesada, e.g., voluntários ou respostas de carta.\\
 	\begin{itemize}
@@ -433,9 +440,7 @@
 	Facilitar a assimilação de informação\\
 	Medidas de:
 	\begin{itemize}
-		\item[-] tendência central (média), 
-		\item[-] variabilidade
-		\item[-] associação
+		\item[-] tendência central (média), variabilidade, associação, etc...
 	\end{itemize}
 	Análise e regressão: predizer uma variável a partir de outras.\\
 	\vspace{1.0cm}
@@ -683,7 +688,7 @@
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Representações bivariadas}
 	\begin{tikzpicture}[remember picture,overlay]
-	\node[xshift=7.5cm,yshift=3.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{scatter_plot_02.png}};
+	\node[xshift=8cm,yshift=3.75cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{scatter_plot_02.png}};
 	\end{tikzpicture}
 	\vspace{-1.5cm}
 	\begin{itemize}
@@ -691,11 +696,9 @@
 		\item[-] Gráficos de dispersão
 		\item[-] Correlação
 		\begin{itemize}
-			\item[-] Pearson
-			\item[-] Kendall
-			\item[-] Spearman
+			\item[-] Pearson, Kendall, Spearman
 		\end{itemize}
-		\item[-] Informação mútua
+		\item[-] Informação mútua...
 	\end{itemize}
 	\vspace{0.5cm}
 	Extraindo dados de duas variáveis:\\
@@ -738,19 +741,21 @@
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Algumas definições}
 	\begin{itemize}
-		\item[-] Tabelas de contingência
-		\item[-] Gráficos de dispersão
-		\item[-] Correlação
+		\item[-] Valor que indica o quão suscetível um evento está de ocorrer.
+		\item[-] Proporção de um evento em particular dada uma longa sequência de observações
+		\item[-] Bases para o cálculo de probabilidades:
 		\begin{itemize}
-			\item[-] Pearson
-			\item[-] Kendall
-			\item[-] Spearman
+			\item[-] Axiomas de Kolmogorov
+			\item[-] Teorema do limite central (ou central do limite?).
+			\item[-] $\sigma$-algebra
+			\item[-] lei dos grandes números			
 		\end{itemize}
-		\item[-] Informação mútua
+		\item[-] Exemplo do problema de Monty Hall.
 	\end{itemize}
-	\vspace{0.5cm}
+	\textbf{Parâmetros}: de populações geralmente são representados por letras gregas, e.g., $\mu$ (média), $\sigma^2$ (variância), $\pi$ (proporção), etc...\\
+	\textbf{Estatísticas} são extraídas das amostras e representadas por letras latinas, com ou sem complemento, e.g., $m$, $s^2$, $p$.\\
 	\begin{tikzpicture}[remember picture,overlay]
-	\node[xshift=9.5cm,yshift=2cm,opacity=1.0] at (current page.center) {\includegraphics[width=12cm]{monty-hall.png}};
+	\node[xshift=10cm,yshift=1.75cm,opacity=1.0] at (current page.center) {\includegraphics[width=12cm]{monty-hall.png}};
 	\end{tikzpicture}
 	\vfill
 	\lfr{\url{https://brilliant-staff-media.s3-us-west-2.amazonaws.com/tiffany-wang/gWotbuEdYC.png}}
@@ -759,9 +764,100 @@
 
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
+\frametitle{Notação e regras básicas I, mais em \citep{Halperin1965}}
+	\begin{columns}[T] % align columns
+	\begin{column}{.85\textwidth}
+		A variável aleatória $x \in X$ significa que um resultado particular (amostra) $x$ pertence $\in$ a variável aleatória/conjunto (população) $X$.\\
+		\vspace{0.5cm}
+		Se a variável tem seus parâmetros conhecidos, por exemplo, vem de uma distribuição normal (Gaussiana $\mathcal{N}(\mu,\sigma)$) com média igual a 1,7 e desvio padrão de 0,4 podemos escrever $x \in \mathcal{N}(1,7,0,4)$, ou $X \backsim \mathcal{N}(1,7,0,4)$. \\
+		\vspace{0.5cm}
+		A normal padrão possui média igual a zero e desvio unitário $\mathcal{N}(0,1)$\\		
+		\vspace{0.5cm}
+		Uma probabilidade de um evento $A$ é definida como $P(\omega:X(\omega) \in A)$ ou simplesmente $P(A)$ (vide nota de rodapé).
+		
+	\end{column}
+	\hfill
+	\begin{column}{0.05\textwidth}
+	\end{column}		
+	\end{columns}
+	\vfill
+	\lfr{Definições mais formalizadas, como \cite{Halperin1965} e \cite{Wikipedia2017}, sugerem Uma probabilidade qualquer é definida como $\mathbb{P}(A)$ e definir ``P é uma probabilidade''. Mas neste material vou utilizar $P(:)$ por ser mais difundido em livros didáticos.}
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Notação e regras básicas II, mais em \citep{Halperin1965}}
+	\begin{columns}[T] % align columns
+		\begin{column}{.85\textwidth}
+			Costuma-se fazer referência ao espaço amostral como $\Omega$, assim $P(\Omega) = 1$			
+			\vspace{0.5cm}
+			Se um evento $A$ tem probabilidade $P(A)$ de ocorrer.\\
+			$P(\bar{A}) = 1 - P(A)$ é a probabilidade do evento não ocorrer.\\
+			\vspace{0.5cm}
+			Dados dois eventos mutualmente independentes $A$ e $B$ (e.g., rodadas diferentes de um lançamento de moeda) e suas probabilidades $P(A)$ e $P(B)$, a probabilidade de ocorrerem:
+			\begin{itemize}
+				\item[-] $P(A)$ ou $P(B)$ é: $P(A \cup B) = P(A) + P(B)$ (um ou o outro ou os dois)
+				\item[-] $P(A)$ e $P(B)$ é: $P(A \cap B) = P(A) \times P(B)$ (concomitantemente)
+			\end{itemize} 
+			\textbf{Independente}: Dois valores de uma mesma característica categórica, e.g., frequência fundamental grave ou aguda.\\
+		\end{column}
+		\hfill
+		\begin{column}{0.05\textwidth}
+		\end{column}		
+	\end{columns}
+	\vfill
+
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Notação e regras básicas III, mais em \citep{Halperin1965}}
+\begin{columns}[T] % align columns
+	\begin{column}{.85\textwidth}
+		Considere dois eventos \textbf{não} mutualmente independentes $A$ e $B$, como valores de características diferentes (e.g., frequência fundamental grave e presença de frênulo lingual) e suas  probabilidade $P(A)$ e $P(B)$. \\
+		\vspace{0.5cm}
+		A probabilidade  condicional, de ocorrer uma condição dada outra é:
+		$P(B|A)$ lê-se $P(B)$ dado $A$\\
+		\vspace{0.5cm}
+		Neste caso:\\
+		$P(A \cap B) = P(A) \times P(B|A)$.\\
+		\vspace{0.5cm}
+		Teorema de Bayes:\\
+		\begin{equation*}
+			P(B|A) = \frac{P(B)P(A|B)}{P(A)}
+		\end{equation*}
+	\end{column}
+	\hfill
+	\begin{column}{0.05\textwidth}
+	\end{column}		
+\end{columns}
+\vfill
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Probabilidades em Diagramas de Venn}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=22cm]{venn-diagrams.png}};
+	\end{tikzpicture}
+	\vfill
+	\lfr{\url{https://www.onlinemathlearning.com/image-files/venn-diagrams.png}}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Distribuições}
+	
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
 \end{frame}
-
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dever de casa}
+\end{frame}
 % ------------------------------------------------------------------------
 \section[Estimação de Parâmetros]{Estimação de Parâmetros}
 \begin{frame}[t,fragile=singleslide]
