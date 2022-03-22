@@ -429,8 +429,8 @@
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Estatística descritiva}
-	Primeiro passo para entender os dados coletados
-	Facilitar a assimilação de informação
+	Primeiro passo para entender os dados coletados\\
+	Facilitar a assimilação de informação\\
 	Medidas de:
 	\begin{itemize}
 		\item[-] tendência central (média), 
@@ -626,22 +626,96 @@
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Achatamento(curtose) e (As)simetria}
+	Mais medidas de caracterização dos dados
+	\begin{lstlisting}
+	library(moments)
+	curt_data <- kurtosis(vec_n_letras_sel)
+	assi_data <- skewness(vec_n_letras_sel)
+	\end{lstlisting}
+	\vspace{2.0cm}
+	
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=-4.5cm,yshift=-3.75cm,opacity=1.0] at (current page.center) {\includegraphics[width=20cm]{different_skewness.png}};
+	\end{tikzpicture}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=9.5cm,yshift=2cm,opacity=1.0] at (current page.center) {\includegraphics[width=12cm]{curtose_pdfs.png}};
+	\end{tikzpicture}
+	\vfill
+\lfr{\url{https://en.wikipedia.org/wiki/Kurtosis} e \url{https://en.wikipedia.org/wiki/}}
 
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{De uma seleção de dados}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=7.5cm,yshift=-4cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{densidade_plot.png}};
+	\end{tikzpicture}
+	Extraindo algumas estatísticas dos dados:
+	\begin{lstlisting}
+	library(moments)
+	vec_n_letras_sel <- data_lemas[data_lemas$cat_gram 
+				%in% 'gram',]$nb_letras
+	data_density <- density(vec_n_letras_sel,n=4096, 
+				bw=1.2*bw.nrd(vec_n_letras_sel))
+	idx_max <- which.max(data_density$y)
+	moda_data <- data_density$y[idx_max]
+	mean_data <- mean(vec_n_letras_sel)
+	medi_data <- median(vec_n_letras_sel)
+	stdv_data <- sd(vec_n_letras_sel)
+	curt_data <- kurtosis(vec_n_letras_sel)
+	assi_data <- skewness(vec_n_letras_sel)
+	\end{lstlisting}
+	\vspace{0.5cm}
+	\begin{addmargin}[2cm]{0em}
+		\normalsize 
+		\begin{verbatim}
+		0.1855834
+		4.313808
+		4
+		2.719188
+		8.536706
+		1.746169
+		\end{verbatim}
+	\end{addmargin}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Representações bivariadas}
-
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=7.5cm,yshift=3.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{scatter_plot_02.png}};
+	\end{tikzpicture}
+	\vspace{-1.5cm}
+	\begin{itemize}
+		\item[-] Tabelas de contingência
+		\item[-] Gráficos de dispersão
+		\item[-] Correlação
+		\begin{itemize}
+			\item[-] Pearson
+			\item[-] Kendall
+			\item[-] Spearman
+		\end{itemize}
+		\item[-] Informação mútua
+	\end{itemize}
+	\vspace{0.5cm}
+	Extraindo dados de duas variáveis:\\
+	\begin{lstlisting}
+	vec_X_sel <- data_lemas[data_lemas$cat_gram %in% 'gram',]$nb_letras
+	vec_Y_sel <- data_lemas[data_lemas$cat_gram %in% 'gram',]$zipf_escala
+	png(file = "../Imagens/scatter_plot_02.png",width = 864, height = 486, bg = "transparent")
+	plot(x=vec_X_sel,y=vec_Y_sel,type='p',pch=16,xlab="log10_freq_orto",ylab="zipf_escala")
+	grid(10,lwd =2)
+	dev.off()
+	cor(vec_X_sel,vec_Y_sel)
+	\end{lstlisting}
+	\vspace{0.5cm}
+	\begin{addmargin}[2cm]{0em}
+		\normalsize 
+		\begin{verbatim}
+		-0.2453342 
+		\end{verbatim}
+	\end{addmargin}
 \end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Fim da Estatística Descritiva - Dever de casa}
@@ -653,13 +727,34 @@
 	\begin{itemize}
 		\item[-] Reproduzir os exemplos no R-Studio.
 	\end{itemize}	
-	
+	\vspace{1cm}
+	Lembrete:\\
+	\textbf{Parâmetros} de populações geralmente são representados por letras gregas, e.g., $\mu$ (média), $\sigma^2$ (variância), $\pi$ (proporção), etc...\\
+	\textbf{Estatísticas} são extraídas das amostras e representadas por letras latinas, com ou sem complemento, e.g., $m$, $s^2$, $p$.\\
 \end{frame}
 
 % ------------------------------------------------------------------------
 \section{Probabilidades}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Algumas definições}
+	\begin{itemize}
+		\item[-] Tabelas de contingência
+		\item[-] Gráficos de dispersão
+		\item[-] Correlação
+		\begin{itemize}
+			\item[-] Pearson
+			\item[-] Kendall
+			\item[-] Spearman
+		\end{itemize}
+		\item[-] Informação mútua
+	\end{itemize}
+	\vspace{0.5cm}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=9.5cm,yshift=2cm,opacity=1.0] at (current page.center) {\includegraphics[width=12cm]{monty-hall.png}};
+	\end{tikzpicture}
+	\vfill
+	\lfr{\url{https://brilliant-staff-media.s3-us-west-2.amazonaws.com/tiffany-wang/gWotbuEdYC.png}}
+	
 \end{frame}
 
 % ------------------------------------------------------------------------
