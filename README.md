@@ -33,7 +33,7 @@ Se seu sistema operacional é windows 9 ou 10 (ou superior) e 64 bits
 
 No windows inicie o Rstudio através do menu iniciar. O primeiro passo é identificar os paineis, em especial o editor de código e o console.
 
-![Tela Rstudio](/home/adelino/MEGAsync/Estatistica_Linguistica/Aulas_Letras/Aula_01/Rtutorial/RStudio_039.png  "Tela do Rstudio indicando os principais paineis")
+![Tela Rstudio](./Rtutorial/RStudio_039.png  "Tela do Rstudio indicando os principais paineis")
 
 O **diretório de trabalho** é uma variável importante para o R (ou Rstudio). Para indicar o diretório de trabalho utilize o atalho Ctrl+Shift+H (isso na versão para linux), ou comando (no console) :
 ```
@@ -42,7 +42,7 @@ setwd("CAMINHO DO DIRETORIO")
 
 onde "CAMINHO_DO_DIRETORIO" é o endereço, por exemplo, "D:\cursos\estatistica\Rcodes". Ou então acesse o menu Session->Set Working Directory->Chooe Directory como indicado na figura a seguir:
 
-![Menu alterar diretorio](/home/adelino/MEGAsync/Estatistica_Linguistica/Aulas_Letras/Aula_01/Rtutorial/RStudio_022.png  "Caminho do menu para indicar o diretŕorio de trabalho")
+![Menu alterar diretorio](./Rtutorial/RStudio_022.png  "Caminho do menu para indicar o diretŕorio de trabalho")
 
 Caso deseja saber qual o diretŕoio corrente de trabalho utilize o comando
 ```
