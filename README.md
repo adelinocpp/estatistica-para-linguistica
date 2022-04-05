@@ -9,6 +9,8 @@ __email:__ adelinocpp@yahoo.com
 
 Todas as imagens disponibilizadas que foram utilizadas na composição das notas de aula, que não são de autoria própria,  estão devidamente referenciadas aos seus sites de origem no arquivo PDF.
 
+Meu editor de *markdown* não possui corretor ortográfico
+
 ## Guia de instalação do R (e Rstudio) no windows
 
 **Disclaimer:** não sou usuário de windows, logo podem acontecer alguns imprevistos.
@@ -81,7 +83,7 @@ estatistica-para-linguistica-main
 	README.md
 ```
 
-Neste caso você só precisará dos diretórios "Dados", "Imagens" e "Rcodes". Essa é uma questão de organização minha, gosto de separar os arquivos para ficar mais fácio de procurar ou de repetir. Em geral utilizo mais diretórrios, porém neste momento, os três bastam.
+Neste caso você só precisará dos diretórios "Dados", "Imagens" e "Rcodes". **Essa é uma questão de organização minha, gosto de separar os arquivos para ficar mais fácil de procurar ou de repetir**. Em geral utilizo mais diretórios, porém neste momento, os três bastam.
 
 Sobre os diretórios:
 1. "Dados" é onde está armazenada a tabela que vamos carrregar;
