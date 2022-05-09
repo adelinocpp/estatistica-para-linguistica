@@ -1,4 +1,4 @@
-Notas de aula de aula do curso de Estatística para Línguística
+Notas de aula de aula do curso de Estatística para Linguística
 ============
 
 __autor:__ Adelino Pinheiro Silva
@@ -19,12 +19,11 @@ Meu editor de *markdown* não possui corretor ortográfico
 
 ### Instalação direta
 
-**Observação:** Sempre verifique os links, o do R começa com "https://cran-r.c3sl.ufpr.br/" e do Rstudo começa com "https://download1.rstudio.org/"
+**Observação:** Sempre verifique os links, o do R começa com "https://cran-r.c3sl.ufpr.br/" e do Rstudio começa com "https://download1.rstudio.org/"
 
-Instale primeiro o R e depois o Rstudio. Durante a instalação, o Rstudio  precisa encontrar a instalação do R.
+Instale primeiro o R e depois o Rstudio. Durante a instalação, o Rstudio precisa encontrar a instalação do R.
 
 Se seu sistema operacional é windows 9 ou 10 (ou superior) e 64 bits
-
 
 1. Baixe e instale o pacote [R 4.1.3](https://cran-r.c3sl.ufpr.br/bin/windows/base/R-4.1.3-win.exe) 
 
@@ -33,7 +32,7 @@ Se seu sistema operacional é windows 9 ou 10 (ou superior) e 64 bits
 
 ### Iniciando o Rstudio
 
-No windows inicie o Rstudio através do menu iniciar. O primeiro passo é identificar os paineis, em especial o editor de código e o console.
+No windows inicie o Rstudio através do menu iniciar. O primeiro passo é identificar os paineis, em especial o editor de **código** e o **console**.
 
 ![Tela Rstudio](./Rtutorial/RStudio_039.png  "Tela do Rstudio indicando os principais paineis")
 
@@ -46,7 +45,7 @@ onde "CAMINHO_DO_DIRETORIO" é o endereço, por exemplo, "D:\cursos\estatistica\
 
 ![Menu alterar diretorio](./Rtutorial/RStudio_022.png  "Caminho do menu para indicar o diretŕorio de trabalho")
 
-Caso deseja saber qual o diretŕoio corrente de trabalho utilize o comando
+Caso deseja saber qual é o diretório corrente de trabalho utilize o comando
 ```
 getwd()
 ```
@@ -63,7 +62,7 @@ getwd()
 
 A primeira tabela, que acompanha o repositório foi obtida junto ao [Corpus Léxico do português](https://www.lexicodoportugues.com/), neste [link](https://www.lexicodoportugues.com/downloads/lexporbr_alfa_lemas_txt.txt).
 
-**Observação:** O arquivo segue o padrão de tabelas que o R consegue trabalhar, sendo que cada linha representa uma medida e cada coluna uma informação. Um detalhe inportante, as colunas são separadas pelo carctere de tabulação "\t" e nos valores quantitativos o separador decimal é a vírgula "," (padrão pt-br). Na maioria das bases internacionais utiliza-se o ponto "." cmo separador decimal.
+**Observação:** O arquivo segue o padrão de tabelas que o R consegue trabalhar, sendo que cada linha representa uma medida e cada coluna uma informação. Dois detalhes inportantes: as colunas são separadas pelo caractere de tabulação "\t"; e, nos valores quantitativos, o separador decimal é a vírgula "," (padrão pt-br). Na maioria das bases de dados internacionais utiliza-se o ponto "." como separador decimal.
 
 ### Exemplo de carga de dados
 

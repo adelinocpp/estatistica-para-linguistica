@@ -954,40 +954,125 @@ O que é estatística não pode fazer \citep{Levshina2015}
 	
 	Em geral, a distribuição amostral da média $\bar{x}$ tende a uma normal independente da distribuição de $X$.
 	
+	
+	
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Fim da Probabilidades - Dever de casa}
+	\textbf{Exercícios do livro \cite{Agresti2018}:}
+	\begin{itemize}
+		\item[-] Capítulo 4: 4.1 - 4.7, 4.18 - 4.20, 4.26 - 4.32.
+	\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
 \section[Estimação de Parâmetros]{Estimação de Parâmetros}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Definições}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=6cm,yshift=-4.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{hmfile_hash_f71959f8.jpg}};
+	\end{tikzpicture}
+		
+\begin{itemize}
+	\item[-] \textbf{Estimador pontual}: é uma melhor sugestão para um parâmetro.
+	\item[-] \textbf{Estimador intervalar}: um intervalo ao redor da estimativa pontual em que acredita-se conter o parâmetro.
+	\item[-] \textbf{Estimador não enviesado}: é centrado no parâmetro e possui a menor dispersão possível
+	\item[*] Eficiente $\rightarrow$ se fechado ao redor do parâmetro.
+\end{itemize}
+	\lfr{\url{https://www.graphpad.com/guides/prism/latest/statistics/images/hmfile_hash_f71959f8.gif}}
 \end{frame}
 
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Proporção}
+	Uma proporção $\hat{p}$ calculada de N é uma estimativa não enviesada do parâmetro da proporção da população $\pi$. Na proporção:
+	
+	\begin{equation*}
+		P(0) = 1-\hat{p}\qquad \text {e} \qquad P(1) = \hat{p}.
+	\end{equation*}
+	\begin{align*}
+		\hat{m} &= 0 \cdot (1-\hat{p}) + 1 \cdot \hat{p} = \hat{p} \\
+		\hat{s}^2 &= (0 - \hat{p})^2 \cdot (1-\hat{p}) + (1 - \hat{p})^2 \cdot \hat{p} = (1-\hat{p}) \cdot[\hat{p}\cdot(1 - \hat{p}) + \hat{p}^2] = \hat{p} \cdot (1 - \hat{p}) \\
+		\hat{s}^2_{\mu} &= \frac{\hat{s}^2}{N} = \sqrt{\frac{\hat{p} \cdot (1 - \hat{p})}{N}}\\
+		N &= \hat{p} \cdot (1 - \hat{p}) \left( \frac{Z_\alpha}{M} \right)^2
+	\end{align*}
+	\begin{equation*}
+		Z_{\frac{\alpha}{2}} \cdot \hat{s}^2_{\mu} \leq \pi \leq Z_{1-\frac{\alpha}{2}} \cdot \hat{s}^2_{\mu}
+	\end{equation*}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Z-score}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=24cm]{normalstandard.jpg}};
+	\end{tikzpicture}
+	\lfr{\url{https://mathbitsnotebook.com/Algebra2/Statistics/normalstandard.jpg}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Média}
+	A média aritmética $\bar{m}$ é um estimador não enviesado da média populacional $\mu$ e pode ser calculada de N amostras:
+	
+	\begin{columns}[T] % align columns
+		\begin{column}{.48\textwidth}
+			\begin{align*}
+			\bar{m} &= \frac{1}{N} \sum_{N} x_i \\
+			\hat{s}^2 &= \frac{1}{N-1} \sum_{N} (x_i - \bar{m})^2 \\
+			\hat{s}^2_{\mu} &= \frac{\hat{s}^2}{N} \\
+			N &= \hat{s}^2 \left( \frac{t_{(\frac{\alpha}{2},N-1)}}{\delta^*} \right)^2
+			\end{align*}
+			\begin{equation*}
+			t_{(\frac{\alpha}{2},N-1)} \cdot \hat{s}^2_{\mu} \leq \mu \leq t_{(1-\frac{\alpha}{2},N-1)} \cdot \hat{s}^2_{\mu}
+			\end{equation*}
+		\end{column}		
+		\begin{column}{.48\textwidth}
+			$\alpha$:  proporção da FDP ou significância. \\
+			
+			A confiança $\gamma = 1 - \alpha$. \\
+			
+			$M$ é proporção de erro aceitável (e.g. se erro 3\% M = 0.003).\\
+			
+			$\delta^*$ é o mínimo efeito de interesse, na dimensão da variável (e.g. 5 gramas em medidas de massa).
+		\end{column}
+	\end{columns}
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Distribuição t-Student}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=24cm]{t-vs-z_orig.png}};
+	\end{tikzpicture}
+	\lfr{\url{https://mri-q.com/uploads/3/4/5/7/34572113/t-vs-z_orig.png}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Desvio padrão e testes }
+	O intervalo de estimativa do desvio padrão 
+	
+	\begin{equation*}
+	\frac{N-1}{\chi^2_{(\frac{\alpha}{2},N-1)}} \cdot \hat{s}^2 \leq \sigma^2 \leq \frac{N-1}{ \chi^2_{(1- \frac{\alpha}{2},N-1)}} \cdot \hat{s}^2
+	\end{equation*}
+	
+	Onde $\chi^2_{(\alpha,N-1)}$ é a distribuição qui-quadrado na proporção $\alpha$ com N-1 graus de liberdade.
+	\vspace{2cm}	
+	Métodos de estimativa baseado em subamostragens
+	\begin{itemize}
+		\item[-] \textit{bootstrap}
+		\item[-] \textit{jack knife}
+	\end{itemize}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim de Estimação de parâmetros - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 5: 5.1, 5.9, 5.24, 5.25, 5.33, 5.34, 5.36, 5.40.
+\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
 \section[Teste de Significância]{Teste de Significância}
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
 \section{Comparação de dois grupos}
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
