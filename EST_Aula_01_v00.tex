@@ -10,7 +10,7 @@
 \usepackage{ragged2e}
 \usepackage{etoolbox}
 \usepackage{scrextend} % ajustar texto para direita
-\usepackage{soul}
+\usepackage{soulutf8}
 \usepackage[normalem]{ulem}
 \usepackage{cancel}
 \usepackage{bm}
@@ -993,11 +993,11 @@ O que é estatística não pode fazer \citep{Levshina2015}
 	\begin{align*}
 		\hat{m} &= 0 \cdot (1-\hat{p}) + 1 \cdot \hat{p} = \hat{p} \\
 		\hat{s}^2 &= (0 - \hat{p})^2 \cdot (1-\hat{p}) + (1 - \hat{p})^2 \cdot \hat{p} = (1-\hat{p}) \cdot[\hat{p}\cdot(1 - \hat{p}) + \hat{p}^2] = \hat{p} \cdot (1 - \hat{p}) \\
-		\hat{s}^2_{\mu} &= \frac{\hat{s}^2}{N} = \sqrt{\frac{\hat{p} \cdot (1 - \hat{p})}{N}}\\
+		\hat{s}^2_{\mu} &= \frac{\hat{s}^2}{N} = {\frac{\hat{p} \cdot (1 - \hat{p})}{N}}\\
 		N &= \hat{p} \cdot (1 - \hat{p}) \left( \frac{Z_\alpha}{M} \right)^2
 	\end{align*}
 	\begin{equation*}
-		Z_{\frac{\alpha}{2}} \cdot \hat{s}^2_{\mu} \leq \pi \leq Z_{1-\frac{\alpha}{2}} \cdot \hat{s}^2_{\mu}
+		Z_{\frac{\alpha}{2}} \cdot \hat{s}{\mu} \leq \pi \leq Z_{1-\frac{\alpha}{2}} \cdot \hat{s}_{\mu}
 	\end{equation*}
 
 \end{frame}
@@ -1023,7 +1023,7 @@ O que é estatística não pode fazer \citep{Levshina2015}
 			N &= \hat{s}^2 \left( \frac{t_{(\frac{\alpha}{2},N-1)}}{\delta^*} \right)^2
 			\end{align*}
 			\begin{equation*}
-			t_{(\frac{\alpha}{2},N-1)} \cdot \hat{s}^2_{\mu} \leq \mu \leq t_{(1-\frac{\alpha}{2},N-1)} \cdot \hat{s}^2_{\mu}
+			t_{(\frac{\alpha}{2},N-1)} \cdot \hat{s}_{\mu} \leq \mu \leq t_{(1-\frac{\alpha}{2},N-1)} \cdot \hat{s}_{\mu}
 			\end{equation*}
 		\end{column}		
 		\begin{column}{.48\textwidth}
@@ -1073,11 +1073,324 @@ O que é estatística não pode fazer \citep{Levshina2015}
 \end{frame}
 % ------------------------------------------------------------------------
 \section[Teste de Significância]{Teste de Significância}
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Premissas e definições}
+	\begin{itemize}
+		\item[-] \textbf{hipótese}: Uma declaração sobre uma população (e.g. falantes de Minas Gerais utilizam frequentemente o termo ``trem'' como palavra ônibus.).
+		\item[-] \textbf{hipótese estatística}: declaração sobre um parâmetro da população (e.g. a \textbf{média} do uso do termo ``trem'' como palavra ônibus por falantes de Minas Gerais é superior a média das demais).
+		\item[-] \textbf{Teste de significância}: utiliza os dados para construir/sintetizar uma evidencia sobre uma hipótese.
+		\item[-] \textbf{Premissas}:
+		\begin{itemize}
+			\item[*] dados qualitativos ou categóricos;
+			\item[*] aleatorização;
+			\item[*] amostra segue a distribuição da população;
+			\item[*] tamanho da amostra.
+		\end{itemize}
+	\end{itemize}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Premissas e definições}
+
+	\textbf{Hipótese nula $H_0$}: Declaração sobre um parâmetro da população para um \textbf{valor em particular} (neste caso hipótese precisa.). Representa um estado de não influência ou ausência de efeito. 
+	
+	\textbf{Hipótese nula $H_1$ ou $H_\alpha$}: Representa o efeito. 
+	
+	Exemplo: Consideremos um estudo em que diferentes falantes de Minas Gerais são expostos a diferentes cenas para depois descrevê-las. Na descrição contabiliza-se o uso de palavras ônibus dividindo-as em 5 categorias:
+	
+	\begin{itemize}
+		\item[-] trem (1);
+		\item[-] troço (2);
+		\item[-] coisa (3);
+		\item[-] negócio (4);
+		\item[-] outras (5).
+	\end{itemize}	
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Escrevendo hipóteses}
+
+\textbf{hipótese nula:} não existe diferença estatística entre a ocorrência da palavra ``trem'' frente as demais categorias, ou $\mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5$; \\
+
+\textbf{hipótese alternativa:} ocorrência média da palavra ``trem'' é maior que a média da ocorrência de cada uma das demais, ou $\mu_1 > \mu_2 \wedge \mu_1 > \mu_3 \wedge \mu_1 > \mu_4 \wedge \mu_1 > \mu_5$.
+\vspace{1cm}
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0: & \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5 \\
+H_1: & \mu_1 > \mu_2 \wedge \mu_1 > \mu_3 \wedge \mu_1 > \mu_4 \wedge \mu_1 > \mu_5
+\end{array}\right.
+\end{equation*}
+\linebreak
+\ul{Observação 1}: Esta é uma comparação entre cinco categorias sendo que o método para realizar esta comparação e testar as hipóteses é um pouco mais elaborado.
+
+\ul{Observação 2}: as mesmas hipóteses poderiam ser escritas na forma de proporção.
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Compreender para argumentar}
+
+O teste verifica quão provável é $H_0$, desta forma ele permite \ul{rejeitar} $H_0$ com um nível de significância $\alpha$ ou \ul{falha em rejeitar} $H_0$. Princípio do \textit{onus probandi}.
+
+\vspace{1.5cm}
+\begin{table}[]
+	\centering
+	\begin{tabular}{|cc|cc|}
+		\hline
+		\multicolumn{2}{|c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}$H_0$/\\ não $H_1$ (efeito)\end{tabular}}}                                                                                    & \multicolumn{2}{c|}{Condição ou Realidade}                                                                                                                       \\ \cline{3-4} 
+		\multicolumn{2}{|c|}{}                                                                                                                                                                        & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Verdadeira/\\ Efeito Negativo\end{tabular}} & \begin{tabular}[c]{@{}c@{}}Falsa/\\ Efeito Positivo\end{tabular}    \\ \hline
+		\multicolumn{1}{|c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Decisão/ Resultado\\ do teste\end{tabular}}} & \begin{tabular}[c]{@{}c@{}}Verdadeira/\\ Efeito Negativo\end{tabular} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Verdadeiro\\ negativo (TN)\end{tabular}}    & \begin{tabular}[c]{@{}c@{}}Falso \\ Negativo (FN)\end{tabular}      \\ \cline{2-4} 
+		\multicolumn{1}{|c|}{}                                                                                                & \begin{tabular}[c]{@{}c@{}}Falsa/\\ Efeito Positivo\end{tabular}      & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Falso\\ Positivo (FP)\end{tabular}}         & \begin{tabular}[c]{@{}c@{}}Verdadeiro \\ positivo (TP)\end{tabular} \\ \hline
+	\end{tabular}
+\end{table}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Decisões}
+	Na realização do teste existem algumas diferenças metodológicas entre o que foi proposto por Fisher e por Neyman–Pearson. 
+	Basicamente:
+	\begin{itemize}
+		\item[-]  Escolhe-se o limiar de decisão, ou significância $\alpha$. A confiabilidade do teste é $\gamma = 1 - \alpha$.
+		\item[-] Calcula-se o valor-p, que é a probabilidade de obter repetibilidade do resultado (ou mais extremo) sob a condição da hipótese nula ser correta (mnemônico: credibilidade de $H_0$).
+		\item[-] Se o valor-p for menor que a significância, rejeita-se $H_0$ com significância $\alpha$ (ou de confiança $1-\alpha$).
+	\end{itemize} 
+\end{frame}	
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Erro tipo I e Erro tipo II}
+Erros:
+\begin{itemize}
+	\item[-] Erro do Tipo I (falso positivo), rejeitar $H_0$ quando ela é verdadeira. $P(\text{rejeitar }H_0|H_0=V) = \alpha$
+	\item[-] Erro do Tipo II (falso negativo), falhar em rejeitar $H_0$ quando ela é falsa. $P(\text{falha em rejeitar }H_0|H_1=V) = \beta$
+\end{itemize} 
+\vspace{1.cm}
+\begin{table}[]
+	\centering
+	\begin{tabular}{|cc|cc|}
+		\hline
+		\multicolumn{2}{|c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}$H_0$/\\ não $H_1$ (efeito)\end{tabular}}}                                                                             & \multicolumn{2}{c|}{Condição ou Realidade}                                                                                                                                      \\ \cline{3-4} 
+		\multicolumn{2}{|c|}{}                                                                                                                                                                 & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Verdadeira/\\ Efeito Negativo\end{tabular}}       & \begin{tabular}[c]{@{}c@{}}Falsa/\\ Efeito Positivo\end{tabular}             \\ \hline
+		\multicolumn{1}{|c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Decisão/\\ Resultado\\ do teste\end{tabular}}} & \begin{tabular}[c]{@{}c@{}}Verdadeira/\\ Efeito Negativo\end{tabular} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}TN\\ ($1-\alpha$)\end{tabular}}      & \begin{tabular}[c]{@{}c@{}}Erro tipo II \\ $\beta$\end{tabular} \\ \cline{2-4} 
+		\multicolumn{1}{|c|}{}                                                                                         & \begin{tabular}[c]{@{}c@{}}Falsa/\\ Efeito Positivo\end{tabular}      & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Erro tipo I\\ $\alpha$\end{tabular}} & \begin{tabular}[c]{@{}c@{}}TP\\ ($1-\beta$)\end{tabular}          \\ \hline
+	\end{tabular}
+\end{table}
+\end{frame}	
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Poder do teste}
+\ul{Poder do teste} ($1-\beta$): Capacidade/probabilidade de rejeitar $H_0$ quando uma hipótese alternativa específica $H_1$ é verdadeira. 
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-2cm,opacity=1.0] at (current page.center) {\includegraphics[width=22cm]{type-I-error.jpg}};
+	\end{tikzpicture}
+	\lfr{\url{https://images.deepai.org/glossary-terms/e5da790fe351430592c2332f693dc8e6/type-I-error.jpg}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste de uma proporção com R}
+	Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. Vamos colocar algumas hipóteses...
+	
+	\textbf{Hipótese de calda dupla}
+	A proporção observada de pessoas do sexo masculino é diferente de 0,5?
+	\begin{equation*}
+	\left\{ \begin{array}{cl}
+	H_0: & \pi = 0,5 \\
+	H_1: & \pi \neq 0,5
+	\end{array}\right.
+	\end{equation*}
+	
+	\begin{lstlisting}
+	prop.test(x=18, n=40, p=0.50, alternative="two.sided")
+	
+	data:  18 out of 40, null probability 0.5
+	X-squared = 0.225, df = 1, p-value = 0.6353
+	alternative hypothesis: true p is not equal to 0.5
+	95 percent confidence interval:
+	0.2960304 0.6134103
+	sample estimates:
+	p 
+	0.45
+	\end{lstlisting}
+	
+	\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste de uma proporção com R}
+	\textbf{Hipótese de superioridade}
+	A proporção observada de pessoas do sexo masculino é maior a 0,5?
+	\begin{equation*}
+	\left\{ \begin{array}{cl}
+	H_0: & \pi = 0,5 \\
+	H_1: & \pi > 0,5
+	\end{array}\right.
+	\end{equation*}
+	
+	\begin{lstlisting}
+	prop.test(x=18, n=40, p=0.50, alternative="greater")
+	
+	data:  18 out of 40, null probability 0.5
+	X-squared = 0.225, df = 1, p-value = 0.6824
+	alternative hypothesis: true p is greater than 0.5
+	95 percent confidence interval:
+	0.3165333 1.0000000
+	sample estimates:
+	p 
+	0.45 
+	\end{lstlisting}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste de uma proporção com R}
+	\textbf{Hipótese de inferioridade}
+	A proporção observada de pessoas do sexo masculino é menor a 0,5?
+	\begin{equation*}
+	\left\{ \begin{array}{cl}
+	H_0: & \pi = 0,5 \\
+	H_1: & \pi < 0,5
+	\end{array}\right.
+	\end{equation*}
+	
+	\begin{lstlisting}
+	prop.test(x=18, n=40, p=0.50, alternative="less")
+	
+	data:  18 out of 40, null probability 0.5
+	X-squared = 0.225, df = 1, p-value = 0.3176
+	alternative hypothesis: true p is less than 0.5
+	95 percent confidence interval:
+	0.0000000 0.5903943
+	sample estimates:
+	p 
+	0.45 
+	\end{lstlisting}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste sobre a média com R}
+	Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. Vamos colocar algumas hipóteses...
+	
+	\textbf{Hipótese de calda dupla}
+	A idade média dos participantes é diferente a 35 anos.
+	\begin{equation*}
+	\left\{ \begin{array}{cl}
+	H_0: & \hat{\mu} = 35 \\
+	H_1: & \hat{\mu} \neq 35
+	\end{array}\right.
+	\end{equation*}
+	
+	\begin{lstlisting}
+	t.test(x=df_disf$IDADE, mu=35,alternative='two.sided')
+	
+	data:  df_disf$IDADE
+	t = -4.0621, df = 39, p-value = 0.0002274
+	alternative hypothesis: true mean is not equal to 35
+	95 percent confidence interval:
+	26.31193 32.08807
+	sample estimates:
+	mean of x 
+	29.2  
+	\end{lstlisting}
+	
+	\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste sobre a média com R}
+\textbf{Hipótese de superioridade}
+A idade média dos participantes é superior a 35 anos.
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0: & \hat{\mu} = 35 \\
+H_1: & \hat{\mu} > 35
+\end{array}\right.
+\end{equation*}
+
+\begin{lstlisting}
+t.test(x=df_disf$IDADE, mu=35,alternative='greater')
+
+t = -4.0621, df = 39, p-value = 0.9999
+alternative hypothesis: true mean is greater than 35
+95 percent confidence interval:
+26.79427      Inf
+sample estimates:
+mean of x 
+29.2 
+\end{lstlisting}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste sobre a média com R}
+\textbf{Hipótese de superioridade}
+A idade média dos participantes é inferior a 35 anos.
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0: & \hat{\mu} = 35 \\
+H_1: & \hat{\mu} < 35
+\end{array}\right.
+\end{equation*}
+
+\begin{lstlisting}
+t.test(x=df_disf$IDADE, mu=35,alternative='less')
+
+data:  df_disf$IDADE
+t = -4.0621, df = 39, p-value = 0.0001137
+alternative hypothesis: true mean is less than 35
+95 percent confidence interval:
+-Inf 31.60573
+sample estimates:
+mean of x 
+29.2 
+\end{lstlisting}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Poder do teste e número de amostras}
+
+\begin{lstlisting}
+library(pwr)
+sdIdade <- sd(df_disf$IDADE)
+delta <- 3/sdIdade  # Minimo efeito (detectavel). Exemplo 3 anos na media de idade
+alpha <- 0.05 # Significancia
+power <- 0.80 # 1-beta
+
+pwr.t.test(d = delta, sig.level = alpha, power = power, type = "one.sample", alternative = "two.sided")
+
+One-sample t test power calculation 
+
+n = 73.06228
+d = 0.33221
+sig.level = 0.05
+power = 0.8
+alternative = two.sided
+\end{lstlisting}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim de Teste de Significância - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 6: 6.1-6.5, 6.17, 6.23, 6.41.
+\end{itemize}
+\end{frame}
+% ------------------------------------------------------------------------
 \section{Comparação de dois grupos}
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}
 \end{frame}
-
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
 \frametitle{Dever de casa}

@@ -1,5 +1,6 @@
 Rcodes/.*
 Rcodes/T*
+Dados/db_Disfluencia_Ana_Beatriz_v00.csv
 *.aux
 *.bbl
 *.bak
