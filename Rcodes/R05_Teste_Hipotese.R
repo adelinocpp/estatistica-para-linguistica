@@ -7,12 +7,12 @@ library(pwr)
 df_disf <- read.table("../Dados/db_Disfluencia_Ana_Beatriz_v00.csv", header = TRUE, 
                       sep = "\t",dec = ",",quote = "\"")
 
-summary(df_disf)
 tbProporcao <- table(df_disf$GRUPO,df_disf$SEXO)
 prop.test(x=9, n=20, p=0.50, alternative="two.sided")
+
 sdIdade <- sd(df_disf$IDADE)
-delta <- 3/sdIdade  # Mínimo efeito (detectável). Exemplo 3 anos na média de idade
+delta <- 4/sdIdade  # Mínimo efeito (detectável). Exemplo 3 anos na média de idade
 alpha <- 0.05 # Significancia
 power <- 0.95 # 1-beta
 
-pwr.t.test(d = delta, sig.level = alpha, power = power, type = "one.sample", alternative = "two.sided")
+pwr.t.test(n = 40, d = delta, sig.level = alpha, type = "one.sample", alternative = "less")

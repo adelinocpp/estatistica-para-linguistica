@@ -1187,7 +1187,7 @@ Erros:
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste de uma proporção com R}
+\frametitle{Teste de uma proporção com R - Bilateral}
 	Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. Vamos colocar algumas hipóteses...
 	
 	\textbf{Hipótese de calda dupla}
@@ -1216,7 +1216,7 @@ Erros:
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste de uma proporção com R}
+\frametitle{Teste de uma proporção com R - Unilateral superior}
 	\textbf{Hipótese de superioridade}
 	A proporção observada de pessoas do sexo masculino é maior a 0,5?
 	\begin{equation*}
@@ -1243,7 +1243,7 @@ Erros:
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste de uma proporção com R}
+\frametitle{Teste de uma proporção com R - Unilateral inferior}
 	\textbf{Hipótese de inferioridade}
 	A proporção observada de pessoas do sexo masculino é menor a 0,5?
 	\begin{equation*}
@@ -1270,7 +1270,7 @@ Erros:
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste sobre a média com R}
+\frametitle{Teste sobre a média com R - Bilateral}
 	Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. Vamos colocar algumas hipóteses...
 	
 	\textbf{Hipótese de calda dupla}
@@ -1300,7 +1300,7 @@ Erros:
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste sobre a média com R}
+\frametitle{Teste sobre a média com R - Unilateral superior}
 \textbf{Hipótese de superioridade}
 A idade média dos participantes é superior a 35 anos.
 \begin{equation*}
@@ -1327,7 +1327,7 @@ mean of x
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Teste sobre a média com R}
+\frametitle{Teste sobre a média com R  - Unilateral inferior}
 \textbf{Hipótese de superioridade}
 A idade média dos participantes é inferior a 35 anos.
 \begin{equation*}
@@ -1389,20 +1389,361 @@ alternative = two.sided
 % ------------------------------------------------------------------------
 \section{Comparação de dois grupos}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Busca por uma diferença ou razão entre parâmetros}
+\vspace{0.5cm}
+\begin{itemize}
+	\item[-] Amostras independentes ou dependentes (pareada).
+	\item[-] Variáveis explicatórias vs. variável resposta.
+	\item[-] Conhecer ou não alguns parâmetros da população.
+\end{itemize}
+\vspace{0.5cm}
+Exemplo: Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. 
+\textbf{Hipótese:} A média do número de gestos que cada grupo realiza é igual?
+
+Sendo:\\
+$\mu_1$ é a média de gestos do grupo com disfluência; e \\
+$\mu_2$ a média de gestos do grupo controle. \\
+
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0: & \mu_2 - \mu_1 = 0 \\
+H_1: & \mu_2 - \mu_1 \neq 0
+\end{array}\right.
+\end{equation*}
+
+\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Amostras independentes ou dependentes}
+	\textbf{Independente:} 	Cada unidade experimental (voluntário) passou por um tratamento diferente ou está em um grupo diferente.\\
+	\textbf{Dependente:} A unidade experimental (gravação de voz, foto, voluntário) pode ser submetido a mais de um tratamento.
+	\vspace{0.5cm}
+	No exemplo
+	\begin{table}[]
+		\centering
+		\begin{tabular}{lccc}
+			&         & \multicolumn{2}{c}{Número de gestos} \\ \cline{3-4} 
+			Grupo     & Amostras & Média         & Desvio padrão        \\ \hline
+			Disfunção & 20       & 5,8           & 7,9                  \\
+			Controle  & 20       & 12,7          & 9,4                 
+		\end{tabular}
+	\end{table}
+
+
 \end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Calculando o teste para duas amostras}
+
+	Passos: 
+	\begin{itemize}
+		\item[-] verificar se as variâncias são iguais com o \textit{var.test()};
+		\item[-] indicar se as variâncias dos dois grupos são iguais (e.g. \textit{var.equal = (varTest\$p.value >= 0.05)});
+		\item[-] selecionar o nível de confiança \textit{conf.level = 0.95};
+		\item[-] indicar se o teste é pareado (e.g. \textit{paired = FALSE});
+		\item[-] a hipótese da média (e.g. \textit{mu = 0});
+	\end{itemize}
+
+	\begin{lstlisting}
+	library(pwr)
+	library(effsize)
+	
+	varTest <- var.test(df_disf$Ges_Total ~df_disf$GRUPO, alternative = "two.sided")
+	t.test(df_disf$Ges_Total ~df_disf$GRUPO, mu = 0, paired = FALSE, 
+				conf.level = 0.95, var.equal = (varTest$p.value >= 0.05))
+	cohenD <- cohen.d(df_disf$Ges_Total,df_disf$GRUPO)
+	pwr.t.test(n=20, d=cohenD$estimate, type = "two.sample", alternative = "two.sided")
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Resultado}
+	
+	Médias são diferentes com p-valor = 0,01669
+	
+	\vspace{1cm}
+	
+	\begin{lstlisting}
+		Two Sample t-test
+	
+	data:  df_disf$Ges_Total by df_disf$GRUPO
+	t = -2.504, df = 38, p-value = 0.01669
+	alternative hypothesis: true difference in means is not equal to 0
+	95 percent confidence interval:
+	-12.478357  -1.321643
+	sample estimates:
+	mean in group 1 mean in group 2 
+	5.8            12.7 
+	\end{lstlisting}
+	
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Potência do teste}
+
+	Sendo a potência do teste é de 0,9527, ou seja, a probabilidade de cometer o erro do tipo II é de 4,73\%.
+	
+	\vspace{1cm}
+	
+	\begin{lstlisting}
+	Two-sample t test power calculation 
+	
+	n = 20
+	d = 1.178793
+	sig.level = 0.05
+	power = 0.9527323
+	alternative = two.sided
+	
+	NOTE: n is number in *each* group
+	
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Cohen-d}
+	
+	Diferença média padronizada. É uma medida do tamanho do efeito, ou a distância (no exemplo em número de gestos) entre os grupos:
+	\vspace{0.5cm}
+	\begin{lstlisting}
+	Cohen's d
+	d estimate: 1.178793 (large)
+	95 percent confidence interval:
+	lower     upper 
+	0.6965114 1.6610739 
+	\end{lstlisting}
+	
+	\begin{flalign*}
+	&d = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{(N_1-1)s^2_1 + (N_2-1)s^2_2}{N_1 + N_2 - 2}}} & \\
+	\end{flalign*}
+	
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=8cm,yshift=-2cm,opacity=1.0] at (current page.center) {\includegraphics[width=12cm]{cohens-d-hypothesized-mean-difference.png}};
+	\end{tikzpicture}
+	\lfr{\url{https://www.statisticshowto.com/cohens-d/}}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Calculando o teste para duas proporções}
+
+	Exemplo: Dada uma amostra de dois grupos de pessoas, um com disfluência na fala e outro sem. 
+	\textbf{Hipótese:} Considerando que a velocidade de fala é dividida em duas categorias ``Adequado e Alterado'', a proporção de fala adequada é maior no grupo controle?
+	
+	\begin{table}[]
+		\centering
+		\begin{tabular}{lccc}
+			& \multicolumn{2}{c}{Velocidade de fala} &       \\ \cline{2-3}
+			Grupo     & Adequado           & Alterado          & Total \\ \hline
+			Disfunção & 13 (0,65)          & 7 (0,35)          & 20    \\
+			Controle  & 19 (0,95)          & 1 (0,05)          & 20   
+		\end{tabular}
+	\end{table}
+
+	Sendo:\\
+	$\pi_1$ é a proporção de falas adequadas no grupo com disfluência; e \\
+	$\pi_2$ a proporção de falas adequadas no grupo controle. \\
+	
+	\begin{equation*}
+	\left\{ \begin{array}{cl}
+	H_0: & \pi_2 - \pi_1 = 0 \\
+	H_1: & \pi_2 - \pi_1 \neq 0
+	\end{array}\right.
+	\end{equation*}
+
+	\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+
+\end{frame}	
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Realizando o teste}
+	Passos: 
+	\begin{itemize}
+		\item[-] separar o numero de eventos de sucesso (e.g. fala ``Adequada'') no número de amostras \textit{x=c(13,19)} e \textit{n=c(20,20)};
+		\item[-] selecionar o nível de confiança \textit{conf.level = 0.95};
+		\item[-] correção de continuidade de Yates's para poucas amostras (e.g. \textit{correct = TRUE});
+	\end{itemize}
+	
+	\begin{lstlisting}
+	library(pwr)
+	
+	propTest <- prop.test(x=c(13,19), n=c(20,20),p = NULL, alternative = "two.sided",
+	correct = TRUE)
+	pwr.2p.test(h = sqrt(propTest$statistic/20), n = 20, sig.level = 0.05, power = NULL, 
+	alternative = "two.sided")
+	\end{lstlisting}
+
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Potência do teste e tamanho efeito}
+	
+	Sendo a potência do teste é de 0,287, ou seja, a probabilidade de cometer o erro do tipo II é de 71,3\%.
+	
+	\begin{flalign*}
+	&h = \sqrt{\frac{\chi^2}{n}} & \\
+	\end{flalign*}
+	
+	\begin{lstlisting}
+	Difference of proportion power calculation for binomial distribution (arcsine transformation) 
+	
+	h = 0.4419417
+	n = 20
+	sig.level = 0.05
+	power = 0.2873077
+	alternative = two.sided
+	
+	NOTE: same sample sizes
+	\end{lstlisting}
+	\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim de Comparação de dois grupos - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 7: 7.4, 7.11, 7.14, 7.21, 7.28, 7.47.
+\end{itemize}
+\end{frame}
+% ------------------------------------------------------------------------
 % ------------------------------------------------------------------------
 \section{Associação de Variáveis Categóricas}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Tabela de contingência}
+
+	Uma empresa de desenvolvimento de cremes faciais realiza um experimento com 600 pessoas. Trezentas (300) no ``grupo de controle'' e 300 no ``grupo de tratamento'' \citep{Kahan2017}.	
+	
+	\begin{table}[]
+		\begin{tabular}{C{6cm}|C{4cm}|C{4cm}|C{4cm}|C{4cm}}
+			& Melhora & sem efeito & Piora & Total \\ \midrule
+			Controle   & 107     & 170        & 23    & 300   \\ \midrule
+			Tratamento & 223     & 2          & 75    & 300   \\ \midrule
+			Total      & 330     & 172        & 98    & 600     
+		\end{tabular}
+	\end{table}
+
+
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Variáveis são independentes}
+\vspace{1cm}
+Uso do teste qui-quadrado, sendo: \\
+
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0 : \text{As variáveis são estatisticamente independentes}.\\
+H_1 : \text{As variáveis são estatisticamente dependentes}.
+\end{array}\right.
+\end{equation*}
+
+\vspace{1cm}
+Quando não utilizar o $\chi^2$:
+\begin{itemize}
+	\item[-] Quando existir \textbf{dependência} entre as \ul{observações}.
+	\item[-] Em caso de células (posições da tabela de contingência) com menos de 5 observações.
+	\item[-] Variáveis não categóricas.
+\end{itemize}
+\vspace{1cm}
+\textbf{Obs}: o teste também pode ser utilizado para ajuste de modelos ou homogeneidade.
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Teste $\chi^2$}
+
+	\begin{lstlisting}
+	tabABC <- as.table(rbind(c(223,2,75), c(107,170,23)))
+	dimnames(tabABC) <- list(grupos = c("Tratamento", "Controle"), resultado = c("Melhora","Sem efeito", "Piora"))
+	
+	            resultado
+	grupos       Melhora Sem efeito Piora
+	Tratamento     223          2    75
+	Controle       107        170    23
+	
+	            resultado
+	grupos       Melhora Outro
+	Tratamento     223    77
+	Controle       107   193
+	
+	            resultado
+	grupos       Outro Piora
+	Tratamento   225    75
+	Controle     277    23
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Medindo o teste e o tamanho do efeito}
+	Calculando os testes para cada tabela:
+	\vspace{0.5cm}
+	\begin{lstlisting}
+		chsqtabAB <- chisq.test(tabAB)
+		chsqtabBC <- chisq.test(tabBC)
+		contribAB <- 100*chsqtabAB$residuals^2/chsqtabAB$statistic
+		contribBC <- 100*chsqtabBC$residuals^2/chsqtabBC$statistic
+	\end{lstlisting}
+	\vspace{0.5cm}
+	\textbf{Resíduos:} Indicam as variáveis que apresentam maior poder de explicação. Sinal indica a direção de (a favor ou contra o tratamento).\\
+	\vspace{0.5cm}
+	Tamanho do efeito e contribuição:
+	\begin{flalign*}
+	&\Psi = \sqrt{\frac{\chi^2}{n}} &  c = \frac{r^2}{\chi^2} & & \\ 
+	\end{flalign*}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Resíduos e tamanho do efeito}
+	\begin{columns}[T] % align columns
+		\begin{column}{.48\textwidth}
+			\begin{lstlisting}
+			            resultado
+			grupos       Melhora Outro
+			Tratamento     223    77
+			Controle       107   193
+			
+			Pearson's Chi-squared test with Yates' continuity correction
+			
+			data:  tabAB
+			X-squared = 89.057, df = 1, p-value < 2.2e-16
+			
+			            resultado
+			grupos       Melhora Outro
+			Tratamento   22.89 	27.98
+			Controle     22.89 	27.98
+			\end{lstlisting}
+		\end{column}%
+		\hfill%
+		\begin{column}{.48\textwidth}	
+			\begin{lstlisting}
+			            resultado
+			grupos       Outro Piora
+			Tratamento   225    75
+			Controle     277    23
+			
+			Pearson's Chi-squared test with Yates' continuity correction
+			
+			data:  tabBC
+			X-squared = 31.722, df = 1, p-value = 1.779e-08
+			
+			            resultado
+			grupos       Outro Piora
+			Tratamento  8.49 	43.49
+			Controle    8.49 	43.49
+			\end{lstlisting}			
+		\end{column}%
+	\end{columns}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim de Associação de Variáveis Categóricas - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 8: 8.5, 8.16, 8.22, 8.40.
+\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
 \section{Regressão Linear e Correlação}
@@ -1468,14 +1809,14 @@ alternative = two.sided
 \frametitle{Dever de casa}
 \end{frame}
 % ------------------------------------------------------------------------
-\section{Introdução a métodos aprofundados}
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
+%\section{Introdução a métodos aprofundados}
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
 % ------------------------------------------------------------------------
 \section{Encerramento}
 \begin{frame}[fragile=singleslide]
