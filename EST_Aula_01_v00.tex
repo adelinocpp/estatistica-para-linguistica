@@ -19,9 +19,10 @@
 \apptocmd{\frame}{}{\justifying}{} % Allow optional arguments after frame.
 \usepackage{amsmath,mathtools}
 \usepackage{verbatim}
+\usepackage{tabularx}
 % -----------------------------------------------------------------------
 % separação entre colunas e linhas de tabelas
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{0.5cm}
 \renewcommand{\arraystretch}{1}
 % -----------------------------------------------------------------------
 % --- Define a centralização de coluna com largura {|C{1 cm}|}
@@ -1748,20 +1749,259 @@ Quando não utilizar o $\chi^2$:
 % ------------------------------------------------------------------------
 \section{Regressão Linear e Correlação}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Fim de Regressão Linear e Correlação}
+\vspace{0.5cm}
+\begin{itemize}
+	\item[-] Associação entre variáveis quantitativas.
+	\item[-] Relação linear ou linearizáveis.
+	\item[-] Importância da visualização de dados
+\end{itemize}
+
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[xshift=4cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{featured.jpg}};
+	\end{tikzpicture}
+
+	\lfr{\url{https://www.tiagoms.com/project/regressaolinear/featured.jpg}}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Dados do Corpus Britânico \cite{Levshina2015}}
+
+\begin{lstlisting}
+reg_bnc <- read.table("./reg_bnc.csv", header = TRUE, sep = ",",dec = ".",quote = "\"")
+png(file = "./Correlacao_01.png",width = 600, height = 450, units = "px")
+	ggcorrplot(cor(reg_bnc[3:12]))
+dev.off()
+
+Reg
+Acad      : 6   
+Fiction   : 3   
+Misc      :14   
+News      :16   
+NonacProse: 6   
+Spok      :24 
+\end{lstlisting}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=4cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/Correlacao_01.png}};
+	\end{tikzpicture}
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Observando a dispersão e a normalidade}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-1cm,opacity=1.0] at (current page.center) {\includegraphics[width=22cm]{../Rcodes/Multiplot_01.png}};
+	\end{tikzpicture}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da correlação - positiva}
+	\vspace{0.5cm}
+	Teste de correlação: Ncomm vs Adj (positiva)
+	\vspace{0.5cm}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=8cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/Scater_01.png}};
+	\end{tikzpicture}
+	
+\begin{lstlisting}
+Pearson's product-moment correlation
+
+data:  reg_bnc$Ncomm and reg_bnc$Adj
+t = 14.009, df = 67, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+0.7877011 0.9134309
+sample estimates:
+cor 
+0.8634126 
+\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da regressão - inclinação positiva}
+	\vspace{1cm}
+	Analisando o resultado da regressão
+	\vspace{0.5cm}
+	\begin{lstlisting}
+		Residuals:
+		Min        1Q    Median        3Q       Max 
+		-0.052278 -0.017021  0.001822  0.012632  0.070010 
+		
+		Coefficients:
+		Estimate Std. Error t value Pr(>|t|)    
+		(Intercept)  0.05664    0.01157   4.894 6.52e-06 ***
+		Adj          2.26526    0.16170  14.009  < 2e-16 ***
+		---
+		Residual standard error: 0.02366 on 67 degrees of freedom
+		Multiple R-squared:  0.7455,	Adjusted R-squared:  0.7417 
+		F-statistic: 196.2 on 1 and 67 DF,  p-value: < 2.2e-16
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da correlação - negativa}
+\vspace{0.5cm}
+Teste de correlação: Ncomm vs P1 (negativa)
+\vspace{0.5cm}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=8cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/Scater_02.png}};
+\end{tikzpicture}
+
+\begin{lstlisting}
+Pearson's product-moment correlation
+
+data:  reg_bnc$Ncomm and reg_bnc$P1
+t = -12.207, df = 67, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.8919068 -0.7391773
+sample estimates:
+cor 
+-0.8305535 
+\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da regressão - inclinação negativa}
+\vspace{1cm}
+Analisando o resultado da regressão
+\vspace{0.5cm}
+\begin{lstlisting}
+Residuals:
+Min        1Q    Median        3Q       Max 
+-0.090100 -0.015763  0.001781  0.015173  0.044199 
+
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.263250   0.005128   51.33   <2e-16 ***
+P1          -2.878204   0.235789  -12.21   <2e-16 ***
+---
+Residual standard error: 0.02611 on 67 degrees of freedom
+Multiple R-squared:  0.6898,	Adjusted R-squared:  0.6852 
+F-statistic:   149 on 1 and 67 DF,  p-value: < 2.2e-16
+\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da correlação}
+\vspace{0.5cm}
+Teste de correlação: Adj vs Nprop ($\approx$ zero)
+\vspace{0.5cm}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=8cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/Scater_03.png}};
+\end{tikzpicture}
+
+\begin{lstlisting}
+Pearson's product-moment correlation
+
+data:  reg_bnc$Adj and reg_bnc$Nprop
+t = 1.0774, df = 67, p-value = 0.2852
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.1095700  0.3561749
+sample estimates:
+cor 
+0.1304949
+\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Análise da regressão}
+\vspace{1cm}
+Analisando o resultado da regressão
+\vspace{0.5cm}
+\begin{lstlisting}
+Residuals:
+Min        1Q    Median        3Q       Max 
+-0.035000 -0.013270  0.000802  0.012221  0.045236 
+
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.066167   0.003661  18.072   <2e-16 ***
+Nprop       0.085743   0.079587   1.077    0.285    
+---
+Residual standard error: 0.01772 on 67 degrees of freedom
+Multiple R-squared:  0.01703,	Adjusted R-squared:  0.002358 
+F-statistic: 1.161 on 1 and 67 DF,  p-value: 0.2852
+\end{lstlisting}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Fim de Regressão Linear e Correlação - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 9: 9.11, 9.18, 9.21, 9,24, 9.39.
+\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
 \section{Relação Multivariável}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Variáveis informações e correlação}
+\vspace{0.5cm}
+\begin{itemize}
+	\item[-] Associação (correlação) não implica causalidade (necessário as não suficiente).
+	\item[-] Problema do controle estatístico nas ciências sociais.
+	\item[-] Recorte de variáveis.
+\end{itemize}
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[xshift=0cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{sharks_vs_icecream.png}};
+	\end{tikzpicture}
+
+\lfr{\url{https://www.nathalievialaneix.eu/teaching/biostat1/img/sharks_vs_icecream.png}}
+\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Formas de associação - Variável à espreita}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Formas de associação - Variável intermediária}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Formas de associação - Interação entre variáveis}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Formas de associação - Causa múltiplas}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Formas de associação - Efeitos Diretos e indiretos}
+%\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Formas de associação - Resumo}
+
+\begin{table}[]
+	\centering
+	\begin{tabularx}{31cm}{|C{6cm} L{9cm} L{13cm}|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} Diagrama & Nome da relação                       & Efeito do controle de $x_2$                                                \\ \hline
+		\includegraphics[height=2cm]{Cap_10_Espuria.png} 
+		 & Associação espúria entre $x_1$ e $y$. & Associação entre $x_1$ e $y$ desaparece.                                   \\
+		\includegraphics[height=1.25cm]{Cap_10_Cadeia.jpg} 
+		& Relação em cadeia: $x_2$ intervêm, $x_1$ causa $y$ de forma indireta. & Associação entre $x_1$ e $y$ desaparece.                   \\
+		\includegraphics[height=2cm]{Cap_10_Interacao.jpg} 
+		& Interação.                            & Associação entre $x_1$ e $y$ varia de acordo com o nível (valor) de $x_2$. \\
+		\includegraphics[height=2cm]{Cap_10_Causas_Multiplas.jpg} 
+		& Causa múltiplas.                      & Associação entre $x_1$ e $y$ não se altera.                                \\
+		\includegraphics[height=2cm]{Cap_10_Efeitos_Diretos_indiretos.jpg} 
+		& Efeito direto e indireto de $x_1$ em $y$.                             & Associação entre $x_1$ e $y$ altera-se mas não desaparece. \\ \hline
+	\end{tabularx}
+\end{table}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Fim de Relação Multivariável - Dever de casa}
+\textbf{Exercícios do livro \cite{Agresti2018}:}
+\begin{itemize}
+	\item[-] Capítulo 10: 10.5, 10.13, 10.19, 10.29.
+\end{itemize}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \section{Regressão Múltipla e Correlação}
