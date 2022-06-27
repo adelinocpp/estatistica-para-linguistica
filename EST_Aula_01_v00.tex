@@ -475,7 +475,6 @@ O que é estatística não pode fazer \citep{Levshina2015}
 	Dados de \href{https://www.lexicodoportugues.com/}{Corpus Léxico do português}
 	\vfill
 	\lfr{Dados: \url{https://www.lexicodoportugues.com/downloads/lexporbr_alfa_lemas_txt.txt}}
-
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
@@ -1749,13 +1748,18 @@ Quando não utilizar o $\chi^2$:
 % ------------------------------------------------------------------------
 \section{Regressão Linear e Correlação}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Fim de Regressão Linear e Correlação}
+\frametitle{Regressão Linear e Correlação}
 \vspace{0.5cm}
 \begin{itemize}
 	\item[-] Associação entre variáveis quantitativas.
 	\item[-] Relação linear ou linearizáveis.
 	\item[-] Importância da visualização de dados
 \end{itemize}
+\vspace{0.5cm}
+Basicamente:
+\begin{flalign*}
+&y = ax + b & \\
+\end{flalign*}
 
 	\begin{tikzpicture}[remember picture,overlay]
 		\node[xshift=4cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{featured.jpg}};
@@ -1784,7 +1788,6 @@ Spok      :24
 	\begin{tikzpicture}[remember picture,overlay]
 	\node[xshift=4cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/Correlacao_01.png}};
 	\end{tikzpicture}
-
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -2004,50 +2007,454 @@ F-statistic: 1.161 on 1 and 67 DF,  p-value: 0.2852
 
 \end{frame}
 % ------------------------------------------------------------------------
-\section{Regressão Múltipla e Correlação}
+\section{Regressão Múltipla}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Regressão Linear múltipla}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=4cm,yshift=-2.0cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{Mult_regre.png}};
+\end{tikzpicture}
+\vspace{-0.5cm}
+\begin{itemize}
+	\item[-] Associação entre variáveis quantitativas.
+	\item[-] Relação linear ou linearizáveis.
+	\item[-] Importância da ``visualização'' de dados.
+	\item[-] Cuidado com interpretações, coeficientes não são tamanho de efeitos.
+\end{itemize}
+\vspace{1.5cm}
+Basicamente:
+\begin{flalign*}
+&y = a_{1}x_{1} + a_{2}x_{2} + b & \\
+\end{flalign*}
+\lfr{\url{https://miro.medium.com/max/1120/1*HLN6FxlXrzDtYN0KAlom4A.png}}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{De volta com o Corpus Britânico \cite{Levshina2015}}
+
+\begin{lstlisting}
+reg_bnc <- read.table("./reg_bnc.csv", header = TRUE, sep = ",",dec = ".",quote = "\"")
+png(file = "./Correlacao_01.png",width = 600, height = 450, units = "px")
+ggcorrplot(cor(reg_bnc[3:12]))
+dev.off()
+
+Reg
+Acad      : 6   
+Fiction   : 3   
+Misc      :14   
+News      :16   
+NonacProse: 6   
+Spok      :24 
+\end{lstlisting}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=4cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/Correlacao_01.png}};
+\end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{E sua dispersão e a normalidade}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=0cm,yshift=-1cm,opacity=1.0] at (current page.center) {\includegraphics[width=22cm]{../Rcodes/Multiplot_01.png}};
+\end{tikzpicture}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Gerando um modelo múltiplo}
+
+A variável \textit{P1} está muto correlacionada com \textit{P2} (0,803), \textit{Adj} (-0,787) e \textit{Interject} (0,696).
+
+Tentativa de modelos de regressão:
+
+\begin{flalign*}
+&P1 = a_1 P2 + a_2 Adj + b & \\
+&P1 =  a_1 P2 + a_2 Adj + a_3 Interject + b &
+\end{flalign*}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Comparando modelos - qqplot}
+\begin{lstlisting}
+reg_bnc <- read.table("./reg_bnc.csv", header = TRUE, 
+sep = ",",dec = ".",quote = "\"")
+
+model_01_fit <- lm(P1 ~ P2 + Adj, data=reg_bnc)
+model_02_fit <- lm(P1 ~ P2 + Adj + Interject, data=reg_bnc)
+\end{lstlisting}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=-8cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/QQPlot_M01.png}};
+\end{tikzpicture}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=8cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/QQPlot_M02.png}};
+\end{tikzpicture}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Comparando modelos - leverage}
+\vspace{1cm}
+Projeção lateral dos modelos
+\vspace{1cm}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=-8cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/Leverange_M01.png}};
+\end{tikzpicture}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=8cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/Leverange_M02.png}};
+\end{tikzpicture}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Comparacao com analise de variância}
+	\begin{lstlisting}
+	> anova(model_01_fit) 
+	Response: P1
+	Df    Sum Sq   Mean Sq F value    Pr(>F)    
+	P2         1 0.0079058 0.0079058 164.962 < 2.2e-16 ***
+	Adj        1 0.0011971 0.0011971  24.978 4.526e-06 ***
+	Residuals 66 0.0031630 0.0000479 
+	
+	> anova(model_02_fit) 
+	Response: P1
+	Df    Sum Sq   Mean Sq  F value    Pr(>F)    
+	P2         1 0.0079058 0.0079058 164.4510 < 2.2e-16 ***
+	Adj        1 0.0011971 0.0011971  24.9010 4.779e-06 ***
+	Interject  1 0.0000382 0.0000382   0.7954    0.3758    
+	Residuals 65 0.0031248 0.0000481 
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Comandos uteis}
+	
+	Algusn comandos uteis em modelos de regressão:
+	
+	\begin{lstlisting}
+	# Coeficientes do modelo
+	coefficients(model_01_fit) 
+	# Intervalo de confianca dos parametro
+	confint(model_01_fit, level=0.95) 
+	# Valores preditos
+	fitted(model_01_fit) 
+	# Residuos
+	residuals(model_01_fit) 
+	# Tabela ANOVA
+	anova(model_01_fit) 
+	# Matriz de covariancia dos parametros
+	vcov(model_01_fit) 
+	# Diagnostico da regressao
+	influence(model_01_fit)
+	\end{lstlisting}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Fim de Regressão Múltipla - Dever de casa}
+	\textbf{Exercícios do livro \cite{Agresti2018}:}
+	\begin{itemize}
+		\item[-] Capítulo 11: %10.5, 10.13, 10.19, 10.29.
+	\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
 \section{Análise de Variância - ANOVA}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Princípios da ANOVA}
+\begin{table}[]
+	\centering
+	\begin{tabularx}{30cm}{|C{9cm} | C{9cm} | C{9cm}|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} ANOVA faz & ANOVA não faz & Alternativa \\ \hline
+		Compara médias de diferentes grupos & Compara médias de grupos com média global & Análise de média \\ 		\hline
+		Indica onde existe e onde não existe diferença entre médias & Indica uma média diferente &  Intervalo de confiança \\ \hline
+		Trabalha sobre valores contínuos & Lida com dados discretos & $\chi^2$ ou teste de variância \\ \hline
+		Dados normalmente distribuídos & distribuições não normais & Kruskal-Wallis \\ \hline
+		Dados precisam ter variâncias parecidas & Dados com variâncias diferentes & Tente amostras de mesmo tamanho para variâncias distintas. \\ \hline
+	\end{tabularx}
+\end{table}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Características}
+
+%\vspace{-0.5cm}
+Teste de hipótese:
+
+\begin{equation*}
+\left\{ \begin{array}{cl}
+H_0: & \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5 \\
+H_1: & \exists (i,j) \mapsto \mu_i \neq \mu_j
+\end{array}\right.
+\end{equation*}
+\vspace{1cm}
+\begin{itemize}
+	\item[-] Independência das variáveis (mutualmente exclusivas).
+	\item[-] Estatística F. Quanto maior mais distintos são os grupos.
+	\item[-] \textit{One wa}y ou unilateral. Uma variável.
+	\item[-] \textit{Two way} ou bidirecional com duas variáveis independentes.
+\end{itemize}
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Dados do \textit{Nicaraguan Sign Language} NSL \cite{Levshina2015}}
+
+\begin{lstlisting}
+NSL <- read.table("./NSL.csv", header = TRUE, sep = ",",dec = ".",quote = "\"")
+summary(NSL)
+
+       X          MannerPath     Cohort
+Min.   : 1.0   Min.   :0.0300   1:9   
+1st Qu.: 7.5   1st Qu.:0.4150   2:9   
+Median :14.0   Median :0.7100   3:9   
+Mean   :14.0   Mean   :0.5878         
+3rd Qu.:20.5   3rd Qu.:0.7800         
+Max.   :27.0   Max.   :0.9100    
+\end{lstlisting}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=5cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/BoxPlot_NSL_00.png}};
+\end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{ANOVA e análise \textit{post-hoc}}
+
+Entendendo a tabela da ANOVA
+
+
+\begin{lstlisting}
+flignerVAR <- fligner.test(NSL$MannerPath ~ NSL$Cohort)
+oneway <- aov(NSL$MannerPath ~ NSL$Cohort)
+tukeyoneway<-TukeyHSD(oneway)
+summary(oneway)
+
+            Df Sum Sq Mean Sq F value   Pr(>F)    
+NSL$Cohort   2  1.337  0.6684   53.47 1.44e-09 ***
+Residuals   24  0.300  0.0125                     
+---
+\end{lstlisting}
+
 \end{frame}
 % ------------------------------------------------------------------------
-\section{Preditores Quantitativos e Categóricos}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Diferenças significantes de Tukey}
+
+Diferença ente as médias, grupos podem ser de tamanhos diferentes.
+\vspace{1cm}
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=0cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/Diferenca_MannerPath_01.png}};
+\end{tikzpicture}
+
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+	\frametitle{Fim de Análise de Variância - Dever de casa}
+	\textbf{Exercícios do livro \cite{Agresti2018}:}
+	\begin{itemize}
+		\item[-] Capítulo 12: %10.5, 10.13, 10.19, 10.29.
+	\end{itemize}
 \end{frame}
 % ------------------------------------------------------------------------
-\section{Modelos com Regressão Múltipla}
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
-% ------------------------------------------------------------------------
-\begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
-\end{frame}
+%\section{Preditores Quantitativos e Categóricos}
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\section{Modelos com Regressão Múltipla}
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
+%% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%\frametitle{Dever de casa}
+%\end{frame}
 % ------------------------------------------------------------------------
 \section{Regressão Logística}
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+\frametitle{Associação de Variáveis quantitiaticas com categóricas.}
+
+\begin{tikzpicture}[remember picture,overlay]
+\node[xshift=6.5cm,yshift=-4.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{logistic-regression-diagram.png}};
+\end{tikzpicture}
+
+Requisitos 
+\begin{itemize}
+	\item[-] Observações são indepependentes.
+	\item[-] A relação entre o logit $\log \left( \frac{p}{1-p}  \right)$ a as variáveis quantitativas são lineares.
+	\item[-] Não tem colinearidade (rependência linear, correlação) entre as variáveis quantitativas.
+	\item[-] Não pressupõe normalidade dos resíduos nem homocedasticidade.
+\end{itemize}
+\vspace{1.5cm}
+Basicamente:
+\begin{flalign*}
+&\log \left( \frac{p}{1-p}  \right) = a_{1}x_{1} + a_{2}x_{2} + ... + a_{n}x_{n} + b & \\
+\end{flalign*}
+
+\lfr{\url{https://www.tibco.com/pt-br/reference-center/what-is-logistic-regression}}
 \end{frame}
 % ------------------------------------------------------------------------
 \begin{frame}[t,fragile=singleslide]
-\frametitle{Dever de casa}
+	\frametitle{Tipos}
+		
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=0cm,opacity=1.0] at (current page.center) {\includegraphics[width=18cm]{regressao_tipos.png}};
+	\end{tikzpicture}
+	
+	%	regressao_tipos.png
+	%	https://operdata.com.br/blog/regressao-logistica-multinomial/
+	\lfr{Fonte \url{https://operdata.com.br/blog/regressao-logistica-multinomial/}}
 \end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Interpretação}
+	Suponha a existência de dois grupos, por exemplo um com disfunção na fala e outro de controle. Como indicado na Tabela.
+
+	\begin{table}[]
+		\centering
+		\begin{tabular}{lccc}
+			&         & \multicolumn{2}{c}{Número de gestos $x$} \\ \cline{3-4} 
+			Grupo     & Amostras & Média         & Desvio padrão        \\ \hline
+			Disfunção ($G_1$) & 20       & 5,8           & 7,9                  \\
+			Controle  ($G_2$) & 20       & 12,7          & 9,4                 
+		\end{tabular}
+	\end{table}
+	
+	Suponhamos que podemos obter as curvas de densidade de probabilidade para cada grupo.
+%	regressao_tipos.png
+%	https://operdata.com.br/blog/regressao-logistica-multinomial/
+	\lfr{O exemplo utiliza dos dados da pesquisa não publicada (por enquanto) da aluna Ana Vieira e Beatriz de Matos.}
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Construído um modelo}
+	
+	Distribuição das ocorrências de $G_1$ e $G_2$. 
+			
+	\vspace{1cm}
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=16cm]{../Rcodes/R10_Gaussianas_Gestos_Grupo_00.png}};
+	\end{tikzpicture}
+	
+
+	
+	
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Fim de Regressão Logística - Dever de casa}
+	
+	Consideremos $P(Y=G_1 |x)$ a probabilidade de pertencer ao grupo $G_1$ dado o valor no número de gestos $x$. 
+	E $P(Y=G_2 |x) = 1 - P(Y=G_1 |x)$.
+	\vspace{1.5cm}
+	Assim a razão da chance de pertencer ao grupo $G_1$ seria 
+	\begin{flalign*}
+	&\frac{P(Y=G_1 |x)}{1 - P(Y=G_1 |x)}
+	\end{flalign*}
+	\vspace{1.5cm}
+	e o valor logaritmico dessa proposrção seria linear
+	\begin{flalign*}
+	&\log \left( \frac{P(Y=G_1 |x)}{1 - P(Y=G_1 |x)}  \right) = a_{1}x_{1} + a_{2}x_{2} + ... + a_{n}x_{n} + b & \\
+	\end{flalign*}
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Tabela de exemplo}
+	\begin{table}[]
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\rowcolor[HTML]{9B9B9B} 
+			Probabilidade $P(Y=G_1 |x)$ & Razão entre as chances (\textit{odds}) & Logit (\textit{log odds}) \\ \hline
+			0,001                       & 0,001                         & -6,91 \\ \hline
+			0,01                        & 0,01                          & -4,6  \\ \hline
+			0,05                        & 0,05                          & -2,94 \\ \hline
+			0,1                         & 0,11                          & -2,2  \\ \hline
+			0,25                        & 0,33                          & -1,1  \\ \hline
+			\rowcolor[HTML]{EFEFEF} 
+			0,5                         & 1                             & 0     \\ \hline
+			0,75                        & 3                             & 1,1   \\ \hline
+			0,9                         & 9                             & 2,2   \\ \hline
+			0,95                        & 19                            & 2,94  \\ \hline
+			0,99                        & 99                            & 4,6   \\ \hline
+			0,999                       & 999                           & 6,91  \\ \hline
+		\end{tabular}
+	\end{table}
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Modelo no R}
+	
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-4.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/R10_Logistica_Gestos_Grupo_00.png}};
+	\end{tikzpicture}
+	
+	\begin{lstlisting}
+	disf_lrm <- lrm(GRUPO~Ges_Total, data = df_disf)
+	
+	m1 <- glm(GRUPO~Ges_Total, family = binomial(link="logit"), data = df_disf)
+	
+	summary(m1)
+	---
+	\end{lstlisting}
+	
+
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+\frametitle{Modelo no R}
+
+\begin{lstlisting}
+Logistic Regression Model
+
+lrm(formula = GRUPO ~ Ges_Total, data = df_disf)
+
+Model Likelihood     Discrimination    Rank Discrim.    
+Ratio Test           Indexes           Indexes       
+Obs            40    LR chi2      6.06    R2       0.188    C       0.759    
+G1            20    d.f.            1    R2(1,40) 0.119    Dxy     0.518    
+G2            20    Pr(> chi2) 0.0138    R2(1,30) 0.155    gamma   0.535    
+max |deriv| 1e-08                         Brier    0.214    tau-a   0.265    
+
+Coef    S.E.   Wald Z Pr(>|Z|)
+Intercept -0.8378 0.4891 -1.71  0.0867  
+Ges_Total  0.0945 0.0425  2.22  0.0263 
+\end{lstlisting}
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Ajuste da curva ROC}
+	Característica de Operação do Receptor
+	
+	\begin{tikzpicture}[remember picture,overlay]
+	\node[xshift=0cm,yshift=-2.5cm,opacity=1.0] at (current page.center) {\includegraphics[width=14cm]{../Rcodes/R10_ROC_Gestos_Grupo_00.png}};
+	\end{tikzpicture}
+	
+\end{frame}
+% ------------------------------------------------------------------------
+\begin{frame}[t,fragile=singleslide]
+	\frametitle{Fim de Regressão Logística - Dever de casa}
+	\textbf{Exercícios do livro \cite{Agresti2018}:}
+	\begin{itemize}
+		\item[-] Capítulo 15: .
+	\end{itemize}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+%\begin{frame}[t,fragile=singleslide]
+%	\frametitle{Fim de Regressão Logística - Dever de casa}
+%\end{frame}
+
 % ------------------------------------------------------------------------
 %\section{Introdução a métodos aprofundados}
 %\begin{frame}[t,fragile=singleslide]

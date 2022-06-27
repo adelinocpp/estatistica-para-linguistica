@@ -9,6 +9,8 @@ library(ggplot2)
 # --- LEITURA DO ARQUIVO DE DADOS ----------------------------------------------
 reg_bnc <- read.table("./reg_bnc.csv", header = TRUE, 
                       sep = ",",dec = ".",quote = "\"")
+
+
 png(file = "./Correlacao_01.png",width = 600, height = 450, units = "px")
   ggcorrplot(cor(reg_bnc[3:12]))
 dev.off()
